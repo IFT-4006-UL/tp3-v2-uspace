@@ -14,19 +14,16 @@ import uspace.api.exceptions.ErrorResponse;
 @Provider
 public class CatchAllExceptionMapper implements ExceptionMapper<Exception> {
 
-    private final Logger logger = LoggerFactory.getLogger(CatchAllExceptionMapper.class);
+	private final Logger logger = LoggerFactory.getLogger(CatchAllExceptionMapper.class);
 
-    @Context
-    private HttpServletRequest request;
+	@Context
+	private HttpServletRequest request;
 
-    @Override
-    public Response toResponse(Exception exception) {
-        var path = request.getPathInfo();
-        logger.error("Unhandled exception in " + path, exception);
-        return Response
-            .status(Status.INTERNAL_SERVER_ERROR)
-            .type(MediaType.APPLICATION_JSON_TYPE)
-            .entity(new ErrorResponse("UNHANDLED EXCEPTION", exception.getMessage()))
-            .build();
-    }
+	@Override
+	public Response toResponse(Exception exception) {
+		var path = request.getPathInfo();
+		logger.error("Unhandled exception in " + path, exception);
+		return Response.status(Status.INTERNAL_SERVER_ERROR).type(MediaType.APPLICATION_JSON_TYPE)
+				.entity(new ErrorResponse("UNHANDLED EXCEPTION", exception.getMessage())).build();
+	}
 }

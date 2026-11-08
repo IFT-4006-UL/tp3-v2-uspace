@@ -9,9 +9,9 @@ import uspace.domain.cruise.hyperdrive.module.exceptions.InvalidHyperdriveModule
 @Provider
 public class InvalidHyperdriveModuleIdExceptionMapper implements ExceptionMapper<InvalidHyperdriveModuleIdException> {
 
-    @Override
-    public Response toResponse(InvalidHyperdriveModuleIdException exception) {
-        ErrorResponse error = new ErrorResponse("INVALID_HYPERDRIVE_ID_FORMAT", exception.getMessage());
-        return Response.status(400).entity(error).build();
-    }
+	@Override
+	public Response toResponse(InvalidHyperdriveModuleIdException exception) {
+		ErrorResponse error = new ErrorResponse("INVALID_HYPERDRIVE_ID_FORMAT", exception.getMessage());
+		return Response.status(400).entity(error).build();
+	}
 }

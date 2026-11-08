@@ -19,42 +19,42 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class BookingTest {
-    private static final BookingId ANY_BOOKING_ID = new BookingId();
-    private static final CabinType ANY_CABIN_TYPE = CabinType.DELUXE;
-    private static final CruiseDateTime ANY_BOOKING_DATE_TIME = new CruiseDateTime(LocalDateTime.of(2222, 3, 4, 1, 2));
-    private Booking booking;
-    @Mock
-    private Traveler travelerMock;
-    @Mock
-    private Traveler otherTravelerMock;
+	private static final BookingId ANY_BOOKING_ID = new BookingId();
+	private static final CabinType ANY_CABIN_TYPE = CabinType.DELUXE;
+	private static final CruiseDateTime ANY_BOOKING_DATE_TIME = new CruiseDateTime(LocalDateTime.of(2222, 3, 4, 1, 2));
+	private Booking booking;
+	@Mock
+	private Traveler travelerMock;
+	@Mock
+	private Traveler otherTravelerMock;
 
-    @BeforeEach
-    void createBooking() {
-        List<Traveler> anyTravelers = new ArrayList<>(List.of(travelerMock, otherTravelerMock));
-        booking = new Booking(ANY_BOOKING_ID, anyTravelers, ANY_CABIN_TYPE, ANY_BOOKING_DATE_TIME);
-    }
+	@BeforeEach
+	void createBooking() {
+		List<Traveler> anyTravelers = new ArrayList<>(List.of(travelerMock, otherTravelerMock));
+		booking = new Booking(ANY_BOOKING_ID, anyTravelers, ANY_CABIN_TYPE, ANY_BOOKING_DATE_TIME);
+	}
 
-    @Test
-    void givenNoTraveler_whenGetTotalOxygenConsumptionPerMinutes_thenReturnZero() {
-        Oxygen zeroOxygen = new Oxygen(0);
-        List<Traveler> noTraveler = new ArrayList<>();
-        Booking bookingWithoutTraveler = new Booking(ANY_BOOKING_ID, noTraveler, ANY_CABIN_TYPE, ANY_BOOKING_DATE_TIME);
+	@Test
+	void givenNoTraveler_whenGetTotalOxygenConsumptionPerMinutes_thenReturnZero() {
+		Oxygen zeroOxygen = new Oxygen(0);
+		List<Traveler> noTraveler = new ArrayList<>();
+		Booking bookingWithoutTraveler = new Booking(ANY_BOOKING_ID, noTraveler, ANY_CABIN_TYPE, ANY_BOOKING_DATE_TIME);
 
-        Oxygen totalOxygenConsumptionPerMinutes = bookingWithoutTraveler.getTotalOxygenConsumptionPerMinutes();
+		Oxygen totalOxygenConsumptionPerMinutes = bookingWithoutTraveler.getTotalOxygenConsumptionPerMinutes();
 
-        assertEquals(zeroOxygen, totalOxygenConsumptionPerMinutes);
-    }
+		assertEquals(zeroOxygen, totalOxygenConsumptionPerMinutes);
+	}
 
-    @Test
-    void givenTravelers_whenGetTotalOxygenConsumptionPerMinutes_thenReturnTotalOxygenConsumptionForAllTravelers() {
-        Oxygen anyOxygen = new Oxygen(100);
-        Oxygen anyOtherOxygen = new Oxygen(555);
-        Oxygen expectedTotalOxygenConsumption = new Oxygen(655);
-        when(travelerMock.getOxygenConsumptionPerMinute()).thenReturn(anyOxygen);
-        when(otherTravelerMock.getOxygenConsumptionPerMinute()).thenReturn(anyOtherOxygen);
+	@Test
+	void givenTravelers_whenGetTotalOxygenConsumptionPerMinutes_thenReturnTotalOxygenConsumptionForAllTravelers() {
+		Oxygen anyOxygen = new Oxygen(100);
+		Oxygen anyOtherOxygen = new Oxygen(555);
+		Oxygen expectedTotalOxygenConsumption = new Oxygen(655);
+		when(travelerMock.getOxygenConsumptionPerMinute()).thenReturn(anyOxygen);
+		when(otherTravelerMock.getOxygenConsumptionPerMinute()).thenReturn(anyOtherOxygen);
 
-        Oxygen totalOxygenConsumptionPerMinutes = booking.getTotalOxygenConsumptionPerMinutes();
+		Oxygen totalOxygenConsumptionPerMinutes = booking.getTotalOxygenConsumptionPerMinutes();
 
-        assertEquals(expectedTotalOxygenConsumption, totalOxygenConsumptionPerMinutes);
-    }
+		assertEquals(expectedTotalOxygenConsumption, totalOxygenConsumptionPerMinutes);
+	}
 }

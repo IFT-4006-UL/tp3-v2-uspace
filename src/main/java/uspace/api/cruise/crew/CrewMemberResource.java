@@ -12,21 +12,21 @@ import uspace.application.cruise.crew.dtos.CrewMemberDto;
 @Produces(MediaType.APPLICATION_JSON)
 public class CrewMemberResource {
 
-    private final CrewMemberService crewMemberService;
-    private final CrewMemberDtoValidator crewMemberDtoValidator;
+	private final CrewMemberService crewMemberService;
+	private final CrewMemberDtoValidator crewMemberDtoValidator;
 
-    @Inject
-    public CrewMemberResource(CrewMemberService crewMemberService, CrewMemberDtoValidator crewMemberDtoValidator) {
-        this.crewMemberService = crewMemberService;
-        this.crewMemberDtoValidator = crewMemberDtoValidator;
-    }
+	@Inject
+	public CrewMemberResource(CrewMemberService crewMemberService, CrewMemberDtoValidator crewMemberDtoValidator) {
+		this.crewMemberService = crewMemberService;
+		this.crewMemberDtoValidator = crewMemberDtoValidator;
+	}
 
-    @POST
-    public Response addCrewMember(@PathParam("cruiseId") String cruiseId, CrewMemberDto crewMemberDto) {
-        crewMemberDtoValidator.validate(crewMemberDto);
+	@POST
+	public Response addCrewMember(@PathParam("cruiseId") String cruiseId, CrewMemberDto crewMemberDto) {
+		crewMemberDtoValidator.validate(crewMemberDto);
 
-        crewMemberService.addCrewMember(cruiseId, crewMemberDto);
+		crewMemberService.addCrewMember(cruiseId, crewMemberDto);
 
-        return Response.status(Response.Status.CREATED).build();
-    }
+		return Response.status(Response.Status.CREATED).build();
+	}
 }

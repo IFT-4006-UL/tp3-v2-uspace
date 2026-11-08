@@ -9,9 +9,9 @@ import uspace.domain.exceptions.MissingParameterException;
 @Provider
 public class MissingParameterExceptionMapper implements ExceptionMapper<MissingParameterException> {
 
-    @Override
-    public Response toResponse(MissingParameterException exception) {
-        ErrorResponse error = new ErrorResponse("MISSING_PARAMETER", exception.getMessage());
-        return Response.status(400).entity(error).build();
-    }
+	@Override
+	public Response toResponse(MissingParameterException exception) {
+		ErrorResponse error = new ErrorResponse("MISSING_PARAMETER", exception.getMessage());
+		return Response.status(400).entity(error).build();
+	}
 }

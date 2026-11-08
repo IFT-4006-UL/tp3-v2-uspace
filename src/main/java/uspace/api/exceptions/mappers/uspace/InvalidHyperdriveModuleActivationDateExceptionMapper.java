@@ -7,11 +7,13 @@ import uspace.api.exceptions.ErrorResponse;
 import uspace.domain.cruise.hyperdrive.module.exceptions.InvalidHyperdriveModuleActivationDateException;
 
 @Provider
-public class InvalidHyperdriveModuleActivationDateExceptionMapper implements ExceptionMapper<InvalidHyperdriveModuleActivationDateException> {
+public class InvalidHyperdriveModuleActivationDateExceptionMapper
+		implements
+			ExceptionMapper<InvalidHyperdriveModuleActivationDateException> {
 
-    @Override
-    public Response toResponse(InvalidHyperdriveModuleActivationDateException exception) {
-        ErrorResponse error = new ErrorResponse("INVALID_ACTIVATION_DATE", exception.getMessage());
-        return Response.status(400).entity(error).build();
-    }
+	@Override
+	public Response toResponse(InvalidHyperdriveModuleActivationDateException exception) {
+		ErrorResponse error = new ErrorResponse("INVALID_ACTIVATION_DATE", exception.getMessage());
+		return Response.status(400).entity(error).build();
+	}
 }

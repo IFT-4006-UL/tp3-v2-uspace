@@ -4,7 +4,7 @@ import uspace.domain.exceptions.InvalidParameterException;
 
 public class InvalidBookingDateException extends InvalidParameterException {
 
-    public InvalidBookingDateException() {
-        super("Invalid booking date.");
-    }
+	public InvalidBookingDateException() {
+		super("Invalid booking date.");
+	}
 }

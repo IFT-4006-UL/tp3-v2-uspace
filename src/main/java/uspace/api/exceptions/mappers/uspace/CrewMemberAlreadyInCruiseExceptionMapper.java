@@ -9,9 +9,9 @@ import uspace.domain.cruise.crew.exceptions.CrewMemberAlreadyInCruiseException;
 @Provider
 public class CrewMemberAlreadyInCruiseExceptionMapper implements ExceptionMapper<CrewMemberAlreadyInCruiseException> {
 
-    @Override
-    public Response toResponse(CrewMemberAlreadyInCruiseException exception) {
-        ErrorResponse error = new ErrorResponse("CREW_MEMBER_ALREADY_EXISTS", exception.getMessage());
-        return Response.status(400).entity(error).build();
-    }
+	@Override
+	public Response toResponse(CrewMemberAlreadyInCruiseException exception) {
+		ErrorResponse error = new ErrorResponse("CREW_MEMBER_ALREADY_EXISTS", exception.getMessage());
+		return Response.status(400).entity(error).build();
+	}
 }

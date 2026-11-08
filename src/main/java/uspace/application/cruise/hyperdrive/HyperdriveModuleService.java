@@ -18,52 +18,53 @@ import uspace.domain.cruise.hyperdrive.module.id.HyperdriveModuleId;
 import java.time.LocalDate;
 
 public class HyperdriveModuleService {
-    private final CruiseRepository cruiseRepository;
-    private final HyperdriveStabilityValidator hyperdriveStabilityValidator;
-    private final HyperdriveModuleFactory hyperdriveModuleFactory;
-    private final LocalDateParser localDateParser;
-    private final HyperdriveMaintenanceAssembler hyperdriveMaintenanceAssembler;
+	private final CruiseRepository cruiseRepository;
+	private final HyperdriveStabilityValidator hyperdriveStabilityValidator;
+	private final HyperdriveModuleFactory hyperdriveModuleFactory;
+	private final LocalDateParser localDateParser;
+	private final HyperdriveMaintenanceAssembler hyperdriveMaintenanceAssembler;
 
-    @Inject
-    public HyperdriveModuleService(CruiseRepository cruiseRepository,
-                                   HyperdriveStabilityValidator hyperdriveStabilityValidator,
-                                   HyperdriveModuleFactory hyperdriveModuleFactory, LocalDateParser localDateParser,
-                                   HyperdriveMaintenanceAssembler hyperdriveMaintenanceAssembler) {
-        this.cruiseRepository = cruiseRepository;
-        this.hyperdriveStabilityValidator = hyperdriveStabilityValidator;
-        this.hyperdriveModuleFactory = hyperdriveModuleFactory;
-        this.localDateParser = localDateParser;
-        this.hyperdriveMaintenanceAssembler = hyperdriveMaintenanceAssembler;
-    }
+	@Inject
+	public HyperdriveModuleService(CruiseRepository cruiseRepository,
+			HyperdriveStabilityValidator hyperdriveStabilityValidator, HyperdriveModuleFactory hyperdriveModuleFactory,
+			LocalDateParser localDateParser, HyperdriveMaintenanceAssembler hyperdriveMaintenanceAssembler) {
+		this.cruiseRepository = cruiseRepository;
+		this.hyperdriveStabilityValidator = hyperdriveStabilityValidator;
+		this.hyperdriveModuleFactory = hyperdriveModuleFactory;
+		this.localDateParser = localDateParser;
+		this.hyperdriveMaintenanceAssembler = hyperdriveMaintenanceAssembler;
+	}
 
+	public void addHyperdriveModule(String cruiseId, NewHyperdriveModuleDto newHyperdriveModuleDto) {
+		Cruise cruise = findCruise(cruiseId);
 
-    public void addHyperdriveModule(String cruiseId, NewHyperdriveModuleDto newHyperdriveModuleDto) {
-        Cruise cruise = findCruise(cruiseId);
+		if (!hyperdriveStabilityValidator.isHyperdriveModuleStable(newHyperdriveModuleDto.id)) {
+			throw new InvalidHyperdriveModuleException();
+		}
 
-        if (!hyperdriveStabilityValidator.isHyperdriveModuleStable(newHyperdriveModuleDto.id)){
-            throw new InvalidHyperdriveModuleException();
-        }
+		LocalDate activationDate = localDateParser.parse(newHyperdriveModuleDto.activationDate);
+		HyperdriveModule hyperdriveModule = hyperdriveModuleFactory.create(newHyperdriveModuleDto.id,
+				newHyperdriveModuleDto.powerLevel, newHyperdriveModuleDto.activationDays, activationDate);
 
-        LocalDate activationDate = localDateParser.parse(newHyperdriveModuleDto.activationDate);
-        HyperdriveModule hyperdriveModule = hyperdriveModuleFactory.create(newHyperdriveModuleDto.id, newHyperdriveModuleDto.powerLevel, newHyperdriveModuleDto.activationDays, activationDate);
+		cruise.addHyperdriveModule(hyperdriveModule);
+		cruiseRepository.save(cruise);
+	}
 
-        cruise.addHyperdriveModule(hyperdriveModule);
-        cruiseRepository.save(cruise);
-    }
+	public void addHyperdriveMaintenance(String cruiseId, String moduleId,
+			HyperdriveMaintenanceDto hyperdriveMaintenanceDto) {
+		Cruise cruise = findCruise(cruiseId);
 
-    public void addHyperdriveMaintenance(String cruiseId, String moduleId, HyperdriveMaintenanceDto hyperdriveMaintenanceDto) {
-        Cruise cruise = findCruise(cruiseId);
+		HyperdriveMaintenance maintenance = hyperdriveMaintenanceAssembler
+				.toHyperdriveMaintenance(hyperdriveMaintenanceDto);
+		cruise.addHyperdriveMaintenance(new HyperdriveModuleId(moduleId), maintenance);
+		cruiseRepository.save(cruise);
+	}
 
-        HyperdriveMaintenance maintenance = hyperdriveMaintenanceAssembler.toHyperdriveMaintenance(hyperdriveMaintenanceDto);
-        cruise.addHyperdriveMaintenance(new HyperdriveModuleId(moduleId), maintenance);
-        cruiseRepository.save(cruise);
-    }
-
-    private Cruise findCruise(String cruiseId) {
-        Cruise cruise = cruiseRepository.findById(new CruiseId(cruiseId));
-        if (cruise == null) {
-            throw new CruiseNotFoundException();
-        }
-        return cruise;
-    }
+	private Cruise findCruise(String cruiseId) {
+		Cruise cruise = cruiseRepository.findById(new CruiseId(cruiseId));
+		if (cruise == null) {
+			throw new CruiseNotFoundException();
+		}
+		return cruise;
+	}
 }

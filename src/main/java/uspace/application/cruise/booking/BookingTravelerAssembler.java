@@ -8,17 +8,14 @@ import uspace.domain.cruise.booking.traveler.Traveler;
 import java.util.List;
 
 public class BookingTravelerAssembler {
-    public BookingTravelerDto toDto(Traveler traveler) {
-        List<String> badges = traveler.getBadges().stream().map(Enum::toString).toList();
+	public BookingTravelerDto toDto(Traveler traveler) {
+		List<String> badges = traveler.getBadges().stream().map(Enum::toString).toList();
 
-        return new BookingTravelerDto(
-                traveler.getId().toString(),
-                traveler.getName().toString(),
-                traveler.getCategory().toString(),
-                badges);
-    }
+		return new BookingTravelerDto(traveler.getId().toString(), traveler.getName().toString(),
+				traveler.getCategory().toString(), badges);
+	}
 
-    public NewBookingTraveler toNewBookingTraveler(NewBookingTravelerDto newBookingTravelerDto) {
-        return new NewBookingTraveler(newBookingTravelerDto.name, newBookingTravelerDto.category);
-    }
+	public NewBookingTraveler toNewBookingTraveler(NewBookingTravelerDto newBookingTravelerDto) {
+		return new NewBookingTraveler(newBookingTravelerDto.name, newBookingTravelerDto.category);
+	}
 }

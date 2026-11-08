@@ -16,39 +16,39 @@ import java.time.LocalDateTime;
 
 public class CruiseService {
 
-    private final CruiseRepository cruiseRepository;
-    private final CruiseAssembler cruiseAssembler;
-    private final LocalDateTimeParser localDateTimeParser;
-    private final  RequiredOxygenAssembler requiredOxygenAssembler;
+	private final CruiseRepository cruiseRepository;
+	private final CruiseAssembler cruiseAssembler;
+	private final LocalDateTimeParser localDateTimeParser;
+	private final RequiredOxygenAssembler requiredOxygenAssembler;
 
-    @Inject
-    public CruiseService(CruiseRepository cruiseRepository, CruiseAssembler cruiseAssembler,
-                         LocalDateTimeParser localDateTimeParser, RequiredOxygenAssembler requiredOxygenAssembler) {
-        this.cruiseRepository = cruiseRepository;
-        this.cruiseAssembler = cruiseAssembler;
-        this.localDateTimeParser = localDateTimeParser;
-        this.requiredOxygenAssembler = requiredOxygenAssembler;
-    }
+	@Inject
+	public CruiseService(CruiseRepository cruiseRepository, CruiseAssembler cruiseAssembler,
+			LocalDateTimeParser localDateTimeParser, RequiredOxygenAssembler requiredOxygenAssembler) {
+		this.cruiseRepository = cruiseRepository;
+		this.cruiseAssembler = cruiseAssembler;
+		this.localDateTimeParser = localDateTimeParser;
+		this.requiredOxygenAssembler = requiredOxygenAssembler;
+	}
 
-    public CruiseDto findCruise(String cruiseId) {
-        Cruise cruise = cruiseRepository.findById(new CruiseId(cruiseId));
-        if (cruise == null) {
-            throw new CruiseNotFoundException();
-        }
+	public CruiseDto findCruise(String cruiseId) {
+		Cruise cruise = cruiseRepository.findById(new CruiseId(cruiseId));
+		if (cruise == null) {
+			throw new CruiseNotFoundException();
+		}
 
-        return cruiseAssembler.toDto(cruise);
-    }
+		return cruiseAssembler.toDto(cruise);
+	}
 
-    public RequiredOxygenDto getRequiredOxygen(String cruiseId, String calculationDateTime) {
-        Cruise cruise = cruiseRepository.findById(new CruiseId(cruiseId));
-        if (cruise == null) {
-            throw new CruiseNotFoundException();
-        }
+	public RequiredOxygenDto getRequiredOxygen(String cruiseId, String calculationDateTime) {
+		Cruise cruise = cruiseRepository.findById(new CruiseId(cruiseId));
+		if (cruise == null) {
+			throw new CruiseNotFoundException();
+		}
 
-        LocalDateTime calculationLocalDateTime = localDateTimeParser.parse(calculationDateTime);
-        CruiseDateTime calculationCruiseDateTime = new CruiseDateTime(calculationLocalDateTime);
-        Oxygen oxygen = cruise.calculateRequiredOxygen(calculationCruiseDateTime);
+		LocalDateTime calculationLocalDateTime = localDateTimeParser.parse(calculationDateTime);
+		CruiseDateTime calculationCruiseDateTime = new CruiseDateTime(calculationLocalDateTime);
+		Oxygen oxygen = cruise.calculateRequiredOxygen(calculationCruiseDateTime);
 
-        return requiredOxygenAssembler.toDto(oxygen);
-    }
+		return requiredOxygenAssembler.toDto(oxygen);
+	}
 }

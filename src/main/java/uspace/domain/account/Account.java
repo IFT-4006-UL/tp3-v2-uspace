@@ -12,35 +12,35 @@ import java.util.List;
 @Entity
 public class Account {
 
-    @Id
-    private AccountUsername username;
-    private HomePlanetName homePlanetName;
+	@Id
+	private AccountUsername username;
+	private HomePlanetName homePlanetName;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<BookingId> bookingIds;
+	@ElementCollection(fetch = FetchType.EAGER)
+	private List<BookingId> bookingIds;
 
-    public Account() {
-    }
+	public Account() {
+	}
 
-    public Account(AccountUsername username, HomePlanetName homePlanetName) {
-        this.username = username;
-        this.homePlanetName = homePlanetName;
-        this.bookingIds = new ArrayList<>();
-    }
+	public Account(AccountUsername username, HomePlanetName homePlanetName) {
+		this.username = username;
+		this.homePlanetName = homePlanetName;
+		this.bookingIds = new ArrayList<>();
+	}
 
-    public AccountUsername getUsername() {
-        return username;
-    }
+	public AccountUsername getUsername() {
+		return username;
+	}
 
-    public HomePlanetName getHomePlanetName() {
-        return homePlanetName;
-    }
+	public HomePlanetName getHomePlanetName() {
+		return homePlanetName;
+	}
 
-    public List<BookingId> getBookingIds() {
-        return bookingIds;
-    }
+	public List<BookingId> getBookingIds() {
+		return bookingIds;
+	}
 
-    public void addBookingId(BookingId id) {
-        bookingIds.add(id);
-    }
+	public void addBookingId(BookingId id) {
+		bookingIds.add(id);
+	}
 }

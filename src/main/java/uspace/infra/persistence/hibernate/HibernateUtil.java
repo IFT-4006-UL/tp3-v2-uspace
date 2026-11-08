@@ -9,35 +9,35 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HibernateUtil {
-    private static final Logger logger = LoggerFactory.getLogger(HibernateUtil.class);
-    private static StandardServiceRegistry registry;
-    private static SessionFactory sessionFactory;
+	private static final Logger logger = LoggerFactory.getLogger(HibernateUtil.class);
+	private static StandardServiceRegistry registry;
+	private static SessionFactory sessionFactory;
 
-    public static SessionFactory getSessionFactory() {
-        if (sessionFactory == null) {
-            try {
-                registry = new StandardServiceRegistryBuilder().configure().build();
+	public static SessionFactory getSessionFactory() {
+		if (sessionFactory == null) {
+			try {
+				registry = new StandardServiceRegistryBuilder().configure().build();
 
-                MetadataSources sources = new MetadataSources(registry);
-                Metadata metadata = sources.getMetadataBuilder().build();
+				MetadataSources sources = new MetadataSources(registry);
+				Metadata metadata = sources.getMetadataBuilder().build();
 
-                sessionFactory = metadata.getSessionFactoryBuilder().build();
+				sessionFactory = metadata.getSessionFactoryBuilder().build();
 
-            } catch (Exception e) {
-                logger.error(e.getMessage(), e.fillInStackTrace());
-                if (registry != null) {
-                    StandardServiceRegistryBuilder.destroy(registry);
-                }
-            }
-        }
-        return sessionFactory;
-    }
+			} catch (Exception e) {
+				logger.error(e.getMessage(), e.fillInStackTrace());
+				if (registry != null) {
+					StandardServiceRegistryBuilder.destroy(registry);
+				}
+			}
+		}
+		return sessionFactory;
+	}
 
-    public static void shutdown() {
-        sessionFactory.close();
-        if (registry != null) {
-            StandardServiceRegistryBuilder.destroy(registry);
-        }
-        sessionFactory = null;
-    }
+	public static void shutdown() {
+		sessionFactory.close();
+		if (registry != null) {
+			StandardServiceRegistryBuilder.destroy(registry);
+		}
+		sessionFactory = null;
+	}
 }

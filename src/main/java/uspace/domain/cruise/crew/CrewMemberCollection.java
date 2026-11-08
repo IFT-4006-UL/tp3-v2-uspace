@@ -15,30 +15,30 @@ import java.util.Map;
 @Embeddable
 public class CrewMemberCollection {
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Map<EmployeeId, CrewMember> crewMembers;
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Map<EmployeeId, CrewMember> crewMembers;
 
-    public CrewMemberCollection() {
-        this.crewMembers = new HashMap<>();
-    }
+	public CrewMemberCollection() {
+		this.crewMembers = new HashMap<>();
+	}
 
-    public CrewMemberCollection(Map<EmployeeId, CrewMember> crewMembers) {
-        this.crewMembers = crewMembers;
-    }
+	public CrewMemberCollection(Map<EmployeeId, CrewMember> crewMembers) {
+		this.crewMembers = crewMembers;
+	}
 
-    public void add(CrewMember crewMember) {
-        if (crewMembers.containsKey(crewMember.getEmployeeId())) {
-            throw new CrewMemberAlreadyInCruiseException();
-        }
+	public void add(CrewMember crewMember) {
+		if (crewMembers.containsKey(crewMember.getEmployeeId())) {
+			throw new CrewMemberAlreadyInCruiseException();
+		}
 
-        crewMembers.put(crewMember.getEmployeeId(), crewMember);
-    }
+		crewMembers.put(crewMember.getEmployeeId(), crewMember);
+	}
 
-    public CrewMember findByEmployeeId(EmployeeId employeeId) {
-        return crewMembers.get(employeeId);
-    }
+	public CrewMember findByEmployeeId(EmployeeId employeeId) {
+		return crewMembers.get(employeeId);
+	}
 
-    public List<CrewMember> findAll() {
-        return List.copyOf(crewMembers.values());
-    }
+	public List<CrewMember> findAll() {
+		return List.copyOf(crewMembers.values());
+	}
 }

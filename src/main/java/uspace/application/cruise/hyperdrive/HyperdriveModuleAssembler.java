@@ -9,24 +9,22 @@ import uspace.domain.cruise.hyperdrive.module.HyperdriveModule;
 import java.util.List;
 
 public class HyperdriveModuleAssembler {
-    private final HyperdriveMaintenanceAssembler hyperdriveMaintenanceAssembler;
+	private final HyperdriveMaintenanceAssembler hyperdriveMaintenanceAssembler;
 
-    @Inject
-    public HyperdriveModuleAssembler(HyperdriveMaintenanceAssembler hyperdriveMaintenanceAssembler) {
-        this.hyperdriveMaintenanceAssembler = hyperdriveMaintenanceAssembler;
-    }
+	@Inject
+	public HyperdriveModuleAssembler(HyperdriveMaintenanceAssembler hyperdriveMaintenanceAssembler) {
+		this.hyperdriveMaintenanceAssembler = hyperdriveMaintenanceAssembler;
+	}
 
-    public HyperdriveModuleDto toDto(HyperdriveModule module) {
-        List<HyperdriveMaintenanceDto> maintenanceDtos = createMaintenanceDtos(module.getMaintenances());
+	public HyperdriveModuleDto toDto(HyperdriveModule module) {
+		List<HyperdriveMaintenanceDto> maintenanceDtos = createMaintenanceDtos(module.getMaintenances());
 
-        return new HyperdriveModuleDto(module.getId().toString(),
-                                       module.getPowerLevel().toInt(),
-                                       module.getActivationDateTime().toString(),
-                                       module.getDeactivationDateTime().toString(),
-                                       maintenanceDtos);
-    }
+		return new HyperdriveModuleDto(module.getId().toString(), module.getPowerLevel().toInt(),
+				module.getActivationDateTime().toString(), module.getDeactivationDateTime().toString(),
+				maintenanceDtos);
+	}
 
-    private List<HyperdriveMaintenanceDto> createMaintenanceDtos(List<HyperdriveMaintenance> maintenances) {
-        return maintenances.stream().map(hyperdriveMaintenanceAssembler::toDto).toList();
-    }
+	private List<HyperdriveMaintenanceDto> createMaintenanceDtos(List<HyperdriveMaintenance> maintenances) {
+		return maintenances.stream().map(hyperdriveMaintenanceAssembler::toDto).toList();
+	}
 }

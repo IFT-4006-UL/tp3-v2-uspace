@@ -12,39 +12,41 @@ import java.util.List;
 
 @Entity
 public class HyperdriveMaintenance {
-    @Id
-    private HyperdriveMaintenanceId id;
-    private HyperdriveMaintenanceDuration duration;
-    @ElementCollection(fetch = FetchType.EAGER)
-    private  List<EmployeeId> employeeIds;
+	@Id
+	private HyperdriveMaintenanceId id;
+	private HyperdriveMaintenanceDuration duration;
+	@ElementCollection(fetch = FetchType.EAGER)
+	private List<EmployeeId> employeeIds;
 
-    public HyperdriveMaintenance() {}
+	public HyperdriveMaintenance() {
+	}
 
-    public HyperdriveMaintenance(HyperdriveMaintenanceId id, HyperdriveMaintenanceDuration duration, List<EmployeeId> employeeIds) {
-        this.id = id;
-        this.duration = duration;
-        this.employeeIds = employeeIds;
-    }
+	public HyperdriveMaintenance(HyperdriveMaintenanceId id, HyperdriveMaintenanceDuration duration,
+			List<EmployeeId> employeeIds) {
+		this.id = id;
+		this.duration = duration;
+		this.employeeIds = employeeIds;
+	}
 
-    public HyperdriveMaintenanceDuration getDuration() {
-        return duration;
-    }
+	public HyperdriveMaintenanceDuration getDuration() {
+		return duration;
+	}
 
-    public List<EmployeeId> getEmployeeIds() {
-        return employeeIds;
-    }
+	public List<EmployeeId> getEmployeeIds() {
+		return employeeIds;
+	}
 
-    public boolean hasValidEmployees(Crew crew) {
-        for (EmployeeId employeeId : employeeIds) {
-            if (crew.findCrewMemberById(employeeId) == null) {
-                return false;
-            }
-        }
+	public boolean hasValidEmployees(Crew crew) {
+		for (EmployeeId employeeId : employeeIds) {
+			if (crew.findCrewMemberById(employeeId) == null) {
+				return false;
+			}
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    public boolean isDurationSufficient(HyperdrivePowerLevel powerLevel) {
-        return duration.isGreaterOrEqualThan(new HyperdriveMaintenanceDuration(powerLevel.toInt()));
-    }
+	public boolean isDurationSufficient(HyperdrivePowerLevel powerLevel) {
+		return duration.isGreaterOrEqualThan(new HyperdriveMaintenanceDuration(powerLevel.toInt()));
+	}
 }

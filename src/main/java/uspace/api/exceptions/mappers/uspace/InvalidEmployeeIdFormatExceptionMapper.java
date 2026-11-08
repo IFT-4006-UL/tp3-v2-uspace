@@ -9,9 +9,9 @@ import uspace.domain.cruise.crew.exceptions.InvalidEmployeeIdFormatException;
 @Provider
 public class InvalidEmployeeIdFormatExceptionMapper implements ExceptionMapper<InvalidEmployeeIdFormatException> {
 
-    @Override
-    public Response toResponse(InvalidEmployeeIdFormatException exception) {
-        ErrorResponse error = new ErrorResponse("INVALID_EMPLOYEE_ID_FORMAT", exception.getMessage());
-        return Response.status(400).entity(error).build();
-    }
+	@Override
+	public Response toResponse(InvalidEmployeeIdFormatException exception) {
+		ErrorResponse error = new ErrorResponse("INVALID_EMPLOYEE_ID_FORMAT", exception.getMessage());
+		return Response.status(400).entity(error).build();
+	}
 }

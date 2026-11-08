@@ -10,18 +10,18 @@ import org.slf4j.LoggerFactory;
 @Provider
 public class RequestLoggerFilter implements ContainerResponseFilter {
 
-    private final Logger logger = LoggerFactory.getLogger(RequestLoggerFilter.class);
+	private final Logger logger = LoggerFactory.getLogger(RequestLoggerFilter.class);
 
-    @Override
-    public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) {
-        var statusCode = responseContext.getStatusInfo().getStatusCode();
-        var statusName = responseContext.getStatusInfo().getReasonPhrase();
-        var path = requestContext.getUriInfo().getPath();
-        var method = requestContext.getMethod();
-        if (statusCode < 400) {
-            logger.info(statusCode + " " + statusName + " - HTTP " + method + " /" + path);
-        } else {
-            logger.error(statusCode + " " + statusName + " - HTTP " + method + " /" + path);
-        }
-    }
+	@Override
+	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) {
+		var statusCode = responseContext.getStatusInfo().getStatusCode();
+		var statusName = responseContext.getStatusInfo().getReasonPhrase();
+		var path = requestContext.getUriInfo().getPath();
+		var method = requestContext.getMethod();
+		if (statusCode < 400) {
+			logger.info(statusCode + " " + statusName + " - HTTP " + method + " /" + path);
+		} else {
+			logger.error(statusCode + " " + statusName + " - HTTP " + method + " /" + path);
+		}
+	}
 }

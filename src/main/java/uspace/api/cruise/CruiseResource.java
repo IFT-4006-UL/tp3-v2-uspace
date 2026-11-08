@@ -14,26 +14,27 @@ import uspace.application.cruise.oxygen.dtos.RequiredOxygenDto;
 @Produces(MediaType.APPLICATION_JSON)
 public class CruiseResource {
 
-    private final CruiseService cruiseService;
-    private final OxygenCalculationValidator oxygenCalculationValidator;
+	private final CruiseService cruiseService;
+	private final OxygenCalculationValidator oxygenCalculationValidator;
 
-    @Inject
-    public CruiseResource(CruiseService cruiseService, OxygenCalculationValidator oxygenCalculationValidator) {
-        this.cruiseService = cruiseService;
-        this.oxygenCalculationValidator = oxygenCalculationValidator;
-    }
+	@Inject
+	public CruiseResource(CruiseService cruiseService, OxygenCalculationValidator oxygenCalculationValidator) {
+		this.cruiseService = cruiseService;
+		this.oxygenCalculationValidator = oxygenCalculationValidator;
+	}
 
-    @GET
-    @Path("{cruiseId}")
-    public Response getCruise(@PathParam("cruiseId") String cruiseId) {
-        CruiseDto cruiseDto = cruiseService.findCruise(cruiseId);
-        return Response.ok(cruiseDto).build();
-    }
-    @GET
-    @Path("{cruiseId}/oxygen")
-    public Response getRequiredOxygen(@PathParam("cruiseId") String cruiseId, @QueryParam("calculationDateTime") String calculationDateTime) {
-        oxygenCalculationValidator.validate(calculationDateTime);
-        RequiredOxygenDto requiredOxygenDto = cruiseService.getRequiredOxygen(cruiseId, calculationDateTime);
-        return Response.ok(requiredOxygenDto).build();
-    }
+	@GET
+	@Path("{cruiseId}")
+	public Response getCruise(@PathParam("cruiseId") String cruiseId) {
+		CruiseDto cruiseDto = cruiseService.findCruise(cruiseId);
+		return Response.ok(cruiseDto).build();
+	}
+	@GET
+	@Path("{cruiseId}/oxygen")
+	public Response getRequiredOxygen(@PathParam("cruiseId") String cruiseId,
+			@QueryParam("calculationDateTime") String calculationDateTime) {
+		oxygenCalculationValidator.validate(calculationDateTime);
+		RequiredOxygenDto requiredOxygenDto = cruiseService.getRequiredOxygen(cruiseId, calculationDateTime);
+		return Response.ok(requiredOxygenDto).build();
+	}
 }

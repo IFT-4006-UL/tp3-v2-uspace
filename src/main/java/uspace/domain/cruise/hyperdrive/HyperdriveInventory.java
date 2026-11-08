@@ -16,65 +16,62 @@ import java.util.List;
 
 @Entity
 public class HyperdriveInventory {
-    @Id
-    private HyperdriveInventoryId id;
-    @OneToMany(fetch = FetchType.EAGER, cascade = jakarta.persistence.CascadeType.ALL)
-    private List<HyperdriveModule> hyperdriveModules;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @Cascade(CascadeType.SAVE_UPDATE)
-    private HyperdriveModuleIdValidator hyperdriveModuleIdValidator;
+	@Id
+	private HyperdriveInventoryId id;
+	@OneToMany(fetch = FetchType.EAGER, cascade = jakarta.persistence.CascadeType.ALL)
+	private List<HyperdriveModule> hyperdriveModules;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@Cascade(CascadeType.SAVE_UPDATE)
+	private HyperdriveModuleIdValidator hyperdriveModuleIdValidator;
 
-    public HyperdriveInventory() {}
+	public HyperdriveInventory() {
+	}
 
-    public HyperdriveInventory(HyperdriveInventoryId id,
-                               List<HyperdriveModule> hyperdriveModules,
-                               HyperdriveModuleIdValidator hyperdriveModuleIdValidator) {
-        this.id = id;
-        this.hyperdriveModules = hyperdriveModules;
-        this.hyperdriveModuleIdValidator = hyperdriveModuleIdValidator;
-    }
+	public HyperdriveInventory(HyperdriveInventoryId id, List<HyperdriveModule> hyperdriveModules,
+			HyperdriveModuleIdValidator hyperdriveModuleIdValidator) {
+		this.id = id;
+		this.hyperdriveModules = hyperdriveModules;
+		this.hyperdriveModuleIdValidator = hyperdriveModuleIdValidator;
+	}
 
-    public List<HyperdriveModule> getAllHyperdriveModules() {
-        return hyperdriveModules;
-    }
+	public List<HyperdriveModule> getAllHyperdriveModules() {
+		return hyperdriveModules;
+	}
 
-    public void addHyperdriveModule(HyperdriveModule hyperdriveModule) {
-        if (!hyperdriveModuleIdValidator.isValid(hyperdriveModule.getId())) {
-            throw new InvalidHyperdriveModuleIdException();
-        }
+	public void addHyperdriveModule(HyperdriveModule hyperdriveModule) {
+		if (!hyperdriveModuleIdValidator.isValid(hyperdriveModule.getId())) {
+			throw new InvalidHyperdriveModuleIdException();
+		}
 
-        if (containsHyperdriveModuleId(hyperdriveModule)) {
-            throw new HyperdriveModuleAlreadyExistsException();
-        }
+		if (containsHyperdriveModuleId(hyperdriveModule)) {
+			throw new HyperdriveModuleAlreadyExistsException();
+		}
 
-        if (containsHyperDriveModuleWithSameActivationPeriod(hyperdriveModule)){
-            throw new HyperdriveModuleConflictException();
-        }
+		if (containsHyperDriveModuleWithSameActivationPeriod(hyperdriveModule)) {
+			throw new HyperdriveModuleConflictException();
+		}
 
-        hyperdriveModules.add(hyperdriveModule);
-    }
+		hyperdriveModules.add(hyperdriveModule);
+	}
 
-    public void addMaintenance(HyperdriveModuleId moduleId, HyperdriveMaintenance maintenance) {
-        HyperdriveModule module = findHyperdriveModule(moduleId);
-        if (module == null) {
-            throw new HyperdriveModuleNotFoundException();
-        }
+	public void addMaintenance(HyperdriveModuleId moduleId, HyperdriveMaintenance maintenance) {
+		HyperdriveModule module = findHyperdriveModule(moduleId);
+		if (module == null) {
+			throw new HyperdriveModuleNotFoundException();
+		}
 
-        module.addMaintenance(maintenance);
-    }
+		module.addMaintenance(maintenance);
+	}
 
-    private HyperdriveModule findHyperdriveModule(HyperdriveModuleId moduleId) {
-        return hyperdriveModules.stream()
-                        .filter(module -> module.getId().equals(moduleId))
-                        .findFirst()
-                        .orElse(null);
-    }
+	private HyperdriveModule findHyperdriveModule(HyperdriveModuleId moduleId) {
+		return hyperdriveModules.stream().filter(module -> module.getId().equals(moduleId)).findFirst().orElse(null);
+	}
 
-    private boolean containsHyperdriveModuleId(HyperdriveModule newHyperdriveModule) {
-        return hyperdriveModules.stream().anyMatch(module -> module.hasSameIdThan(newHyperdriveModule));
-    }
+	private boolean containsHyperdriveModuleId(HyperdriveModule newHyperdriveModule) {
+		return hyperdriveModules.stream().anyMatch(module -> module.hasSameIdThan(newHyperdriveModule));
+	}
 
-    private boolean containsHyperDriveModuleWithSameActivationPeriod(HyperdriveModule newHyperdriveModule) {
-        return hyperdriveModules.stream().anyMatch(module -> module.hasSameActivationPeriodThan(newHyperdriveModule));
-    }
+	private boolean containsHyperDriveModuleWithSameActivationPeriod(HyperdriveModule newHyperdriveModule) {
+		return hyperdriveModules.stream().anyMatch(module -> module.hasSameActivationPeriodThan(newHyperdriveModule));
+	}
 }

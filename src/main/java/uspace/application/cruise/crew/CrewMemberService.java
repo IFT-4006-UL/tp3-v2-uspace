@@ -12,27 +12,27 @@ import uspace.domain.cruise.oxygen.Oxygen;
 
 public class CrewMemberService {
 
-    private final CruiseRepository cruiseRepository;
-    private final CrewMemberAssembler crewMemberAssembler;
-    private final Oxygen crewMemberOxygenConsumptionPerMinute;
+	private final CruiseRepository cruiseRepository;
+	private final CrewMemberAssembler crewMemberAssembler;
+	private final Oxygen crewMemberOxygenConsumptionPerMinute;
 
-    @Inject
-    public CrewMemberService(CruiseRepository cruiseRepository, CrewMemberAssembler crewMemberAssembler,
-                             @Named("crew") Oxygen crewMemberOxygenConsumptionPerMinute) {
-        this.cruiseRepository = cruiseRepository;
-        this.crewMemberAssembler = crewMemberAssembler;
-        this.crewMemberOxygenConsumptionPerMinute = crewMemberOxygenConsumptionPerMinute;
-    }
+	@Inject
+	public CrewMemberService(CruiseRepository cruiseRepository, CrewMemberAssembler crewMemberAssembler,
+			@Named("crew") Oxygen crewMemberOxygenConsumptionPerMinute) {
+		this.cruiseRepository = cruiseRepository;
+		this.crewMemberAssembler = crewMemberAssembler;
+		this.crewMemberOxygenConsumptionPerMinute = crewMemberOxygenConsumptionPerMinute;
+	}
 
-    public void addCrewMember(String cruiseId, CrewMemberDto crewMemberDto) {
-        Cruise cruise = cruiseRepository.findById(new CruiseId(cruiseId));
-        if (cruise == null) {
-            throw new CruiseNotFoundException();
-        }
+	public void addCrewMember(String cruiseId, CrewMemberDto crewMemberDto) {
+		Cruise cruise = cruiseRepository.findById(new CruiseId(cruiseId));
+		if (cruise == null) {
+			throw new CruiseNotFoundException();
+		}
 
-        CrewMember crewMember = crewMemberAssembler.toCrewMember(crewMemberDto, crewMemberOxygenConsumptionPerMinute);
-        cruise.addCrewMember(crewMember);
+		CrewMember crewMember = crewMemberAssembler.toCrewMember(crewMemberDto, crewMemberOxygenConsumptionPerMinute);
+		cruise.addCrewMember(crewMember);
 
-        cruiseRepository.save(cruise);
-    }
+		cruiseRepository.save(cruise);
+	}
 }

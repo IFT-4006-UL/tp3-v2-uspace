@@ -12,27 +12,27 @@ import uspace.application.account.dtos.AccountDto;
 @Produces(MediaType.APPLICATION_JSON)
 public class AccountResource {
 
-    private final AccountService accountService;
-    private final AccountDtoValidator accountDtoValidator;
+	private final AccountService accountService;
+	private final AccountDtoValidator accountDtoValidator;
 
-    @Inject
-    public AccountResource(AccountService accountService, AccountDtoValidator accountDtoValidator) {
-        this.accountService = accountService;
-        this.accountDtoValidator = accountDtoValidator;
-    }
+	@Inject
+	public AccountResource(AccountService accountService, AccountDtoValidator accountDtoValidator) {
+		this.accountService = accountService;
+		this.accountDtoValidator = accountDtoValidator;
+	}
 
-    @POST
-    public Response createAccount(AccountDto accountDto) {
-        accountDtoValidator.validate(accountDto);
-        accountService.createAccount(accountDto);
+	@POST
+	public Response createAccount(AccountDto accountDto) {
+		accountDtoValidator.validate(accountDto);
+		accountService.createAccount(accountDto);
 
-        return Response.status(Response.Status.CREATED).build();
-    }
+		return Response.status(Response.Status.CREATED).build();
+	}
 
-    @GET
-    @Path("/{username}")
-    public Response getAccount(@PathParam("username") String username) {
-        AccountDto accountDto = accountService.findAccount(username);
-        return Response.ok(accountDto).build();
-    }
+	@GET
+	@Path("/{username}")
+	public Response getAccount(@PathParam("username") String username) {
+		AccountDto accountDto = accountService.findAccount(username);
+		return Response.ok(accountDto).build();
+	}
 }

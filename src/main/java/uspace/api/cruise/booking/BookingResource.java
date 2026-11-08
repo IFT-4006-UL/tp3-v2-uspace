@@ -18,32 +18,30 @@ import java.net.URI;
 @Produces(MediaType.APPLICATION_JSON)
 public class BookingResource {
 
-    private final BookingService bookingService;
-    private final NewBookingDtoValidator newBookingDtoValidator;
+	private final BookingService bookingService;
+	private final NewBookingDtoValidator newBookingDtoValidator;
 
-    @Inject
-    public BookingResource(BookingService bookingService, NewBookingDtoValidator newBookingDtoValidator) {
-        this.bookingService = bookingService;
-        this.newBookingDtoValidator = newBookingDtoValidator;
-    }
+	@Inject
+	public BookingResource(BookingService bookingService, NewBookingDtoValidator newBookingDtoValidator) {
+		this.bookingService = bookingService;
+		this.newBookingDtoValidator = newBookingDtoValidator;
+	}
 
-    @POST
-    public Response createBooking(
-            @PathParam("cruiseId") String cruiseId,
-            NewBookingDto newBookingDto,
-            @Context UriInfo uriInfo) {
-        newBookingDtoValidator.validate(newBookingDto);
+	@POST
+	public Response createBooking(@PathParam("cruiseId") String cruiseId, NewBookingDto newBookingDto,
+			@Context UriInfo uriInfo) {
+		newBookingDtoValidator.validate(newBookingDto);
 
-        BookingIdDto bookingIdDto = bookingService.createBooking(cruiseId, newBookingDto);
+		BookingIdDto bookingIdDto = bookingService.createBooking(cruiseId, newBookingDto);
 
-        URI location = uriInfo.getAbsolutePathBuilder().path(bookingIdDto.id).build();
-        return Response.created(location).build();
-    }
+		URI location = uriInfo.getAbsolutePathBuilder().path(bookingIdDto.id).build();
+		return Response.created(location).build();
+	}
 
-    @GET
-    @Path("/{bookingId}")
-    public Response getBooking(@PathParam("cruiseId") String cruiseId, @PathParam("bookingId") String bookingId) {
-        BookingDto bookingDto = bookingService.findBooking(cruiseId, bookingId);
-        return Response.ok(bookingDto).build();
-    }
+	@GET
+	@Path("/{bookingId}")
+	public Response getBooking(@PathParam("cruiseId") String cruiseId, @PathParam("bookingId") String bookingId) {
+		BookingDto bookingDto = bookingService.findBooking(cruiseId, bookingId);
+		return Response.ok(bookingDto).build();
+	}
 }

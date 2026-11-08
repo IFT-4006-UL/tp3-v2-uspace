@@ -7,55 +7,56 @@ import java.time.temporal.ChronoUnit;
 
 @Embeddable
 public class CruiseDateTime {
-    private LocalDateTime localDateTime;
+	private LocalDateTime localDateTime;
 
-    public CruiseDateTime() {
+	public CruiseDateTime() {
 
-    }
+	}
 
-    public CruiseDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
-    }
+	public CruiseDateTime(LocalDateTime localDateTime) {
+		this.localDateTime = localDateTime;
+	}
 
-    public boolean isBefore(CruiseDateTime otherCruiseDateTime) {
-        return localDateTime.isBefore(otherCruiseDateTime.localDateTime);
-    }
+	public boolean isBefore(CruiseDateTime otherCruiseDateTime) {
+		return localDateTime.isBefore(otherCruiseDateTime.localDateTime);
+	}
 
-    public boolean isAfter(CruiseDateTime otherCruiseDateTime) {
-        return localDateTime.isAfter(otherCruiseDateTime.localDateTime);
-    }
+	public boolean isAfter(CruiseDateTime otherCruiseDateTime) {
+		return localDateTime.isAfter(otherCruiseDateTime.localDateTime);
+	}
 
-    public int calculateDaysBefore(CruiseDateTime laterCruiseDateTime) {
-        return (int) localDateTime.until(laterCruiseDateTime.localDateTime, ChronoUnit.DAYS);
-    }
+	public int calculateDaysBefore(CruiseDateTime laterCruiseDateTime) {
+		return (int) localDateTime.until(laterCruiseDateTime.localDateTime, ChronoUnit.DAYS);
+	}
 
-    public int calculateMinutesBefore(CruiseDateTime laterCruiseDateTime) {
-        return (int) localDateTime.until(laterCruiseDateTime.localDateTime, ChronoUnit.MINUTES);
-    }
+	public int calculateMinutesBefore(CruiseDateTime laterCruiseDateTime) {
+		return (int) localDateTime.until(laterCruiseDateTime.localDateTime, ChronoUnit.MINUTES);
+	}
 
-    public CruiseDateTime plusHours(int durationInHours) {
-        return new CruiseDateTime(localDateTime.plusHours(durationInHours));
-    }
+	public CruiseDateTime plusHours(int durationInHours) {
+		return new CruiseDateTime(localDateTime.plusHours(durationInHours));
+	}
 
-    public boolean isBetween(CruiseDateTime firstDateTime, CruiseDateTime lastDateTime) {
-        return !localDateTime.isBefore(firstDateTime.localDateTime) && !localDateTime.isAfter(lastDateTime.localDateTime);
-    }
+	public boolean isBetween(CruiseDateTime firstDateTime, CruiseDateTime lastDateTime) {
+		return !localDateTime.isBefore(firstDateTime.localDateTime)
+				&& !localDateTime.isAfter(lastDateTime.localDateTime);
+	}
 
-    @Override
-    public String toString() {
-        return localDateTime.toString();
-    }
+	@Override
+	public String toString() {
+		return localDateTime.toString();
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
 
-        CruiseDateTime that = (CruiseDateTime) obj;
-        return localDateTime.equals(that.localDateTime);
-    }
+		CruiseDateTime that = (CruiseDateTime) obj;
+		return localDateTime.equals(that.localDateTime);
+	}
 }

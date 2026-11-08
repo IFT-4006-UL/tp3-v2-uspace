@@ -9,9 +9,9 @@ import uspace.domain.exceptions.InvalidParameterException;
 @Provider
 public class InvalidParameterExceptionMapper implements ExceptionMapper<InvalidParameterException> {
 
-    @Override
-    public Response toResponse(InvalidParameterException exception) {
-        ErrorResponse error = new ErrorResponse("INVALID_PARAMETER", exception.getMessage());
-        return Response.status(400).entity(error).build();
-    }
+	@Override
+	public Response toResponse(InvalidParameterException exception) {
+		ErrorResponse error = new ErrorResponse("INVALID_PARAMETER", exception.getMessage());
+		return Response.status(400).entity(error).build();
+	}
 }

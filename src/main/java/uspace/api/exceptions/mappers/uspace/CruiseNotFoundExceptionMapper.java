@@ -9,9 +9,9 @@ import uspace.domain.cruise.exceptions.CruiseNotFoundException;
 @Provider
 public class CruiseNotFoundExceptionMapper implements ExceptionMapper<CruiseNotFoundException> {
 
-    @Override
-    public Response toResponse(CruiseNotFoundException exception) {
-        ErrorResponse error = new ErrorResponse("CRUISE_NOT_FOUND", exception.getMessage());
-        return Response.status(404).entity(error).build();
-    }
+	@Override
+	public Response toResponse(CruiseNotFoundException exception) {
+		ErrorResponse error = new ErrorResponse("CRUISE_NOT_FOUND", exception.getMessage());
+		return Response.status(404).entity(error).build();
+	}
 }

@@ -13,39 +13,37 @@ import uspace.application.cruise.hyperdrive.dtos.NewHyperdriveModuleDto;
 @Produces(MediaType.APPLICATION_JSON)
 public class HyperdriveModuleResource {
 
-    private final HyperdriveModuleService hyperdriveModuleService;
-    private final NewHyperdriveModuleValidator newHyperdriveModuleValidator;
-    private final HyperdriveMaintenanceValidator hyperdriveMaintenanceValidator;
+	private final HyperdriveModuleService hyperdriveModuleService;
+	private final NewHyperdriveModuleValidator newHyperdriveModuleValidator;
+	private final HyperdriveMaintenanceValidator hyperdriveMaintenanceValidator;
 
-    @Inject
-    public HyperdriveModuleResource(HyperdriveModuleService hyperdriveModuleService, NewHyperdriveModuleValidator newHyperdriveModuleValidator,
-                                    HyperdriveMaintenanceValidator hyperdriveMaintenanceValidator) {
-        this.hyperdriveModuleService = hyperdriveModuleService;
-        this.newHyperdriveModuleValidator = newHyperdriveModuleValidator;
-        this.hyperdriveMaintenanceValidator = hyperdriveMaintenanceValidator;
-    }
+	@Inject
+	public HyperdriveModuleResource(HyperdriveModuleService hyperdriveModuleService,
+			NewHyperdriveModuleValidator newHyperdriveModuleValidator,
+			HyperdriveMaintenanceValidator hyperdriveMaintenanceValidator) {
+		this.hyperdriveModuleService = hyperdriveModuleService;
+		this.newHyperdriveModuleValidator = newHyperdriveModuleValidator;
+		this.hyperdriveMaintenanceValidator = hyperdriveMaintenanceValidator;
+	}
 
-    @POST
-    public Response addHyperdriveModule(
-            @PathParam("cruiseId") String cruiseId,
-            NewHyperdriveModuleDto newHyperdriveModuleDto) {
-        newHyperdriveModuleValidator.validate(newHyperdriveModuleDto);
+	@POST
+	public Response addHyperdriveModule(@PathParam("cruiseId") String cruiseId,
+			NewHyperdriveModuleDto newHyperdriveModuleDto) {
+		newHyperdriveModuleValidator.validate(newHyperdriveModuleDto);
 
-        hyperdriveModuleService.addHyperdriveModule(cruiseId, newHyperdriveModuleDto);
+		hyperdriveModuleService.addHyperdriveModule(cruiseId, newHyperdriveModuleDto);
 
-        return Response.status(Response.Status.CREATED).build();
-    }
+		return Response.status(Response.Status.CREATED).build();
+	}
 
-    @POST
-    @Path("/{moduleId}/maintenances")
-    public Response addHyperdriveMaintenance(
-            @PathParam("cruiseId") String cruiseId,
-            @PathParam("moduleId") String moduleId,
-            HyperdriveMaintenanceDto hyperdriveMaintenanceDto) {
-        hyperdriveMaintenanceValidator.validate(hyperdriveMaintenanceDto);
+	@POST
+	@Path("/{moduleId}/maintenances")
+	public Response addHyperdriveMaintenance(@PathParam("cruiseId") String cruiseId,
+			@PathParam("moduleId") String moduleId, HyperdriveMaintenanceDto hyperdriveMaintenanceDto) {
+		hyperdriveMaintenanceValidator.validate(hyperdriveMaintenanceDto);
 
-        hyperdriveModuleService.addHyperdriveMaintenance(cruiseId, moduleId, hyperdriveMaintenanceDto);
+		hyperdriveModuleService.addHyperdriveMaintenance(cruiseId, moduleId, hyperdriveMaintenanceDto);
 
-        return Response.status(Response.Status.CREATED).build();
-    }
+		return Response.status(Response.Status.CREATED).build();
+	}
 }

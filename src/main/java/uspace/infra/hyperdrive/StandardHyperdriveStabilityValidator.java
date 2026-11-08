@@ -5,14 +5,14 @@ import uspace.domain.cruise.hyperdrive.HyperdriveStabilityValidator;
 
 public class StandardHyperdriveStabilityValidator implements HyperdriveStabilityValidator {
 
-    private final StandardHyperdriveStabilitySystem standardHyperdriveStabilitySystem;
+	private final StandardHyperdriveStabilitySystem standardHyperdriveStabilitySystem;
 
-    public StandardHyperdriveStabilityValidator(StandardHyperdriveStabilitySystem standardHyperdriveStabilitySystem) {
-        this.standardHyperdriveStabilitySystem = standardHyperdriveStabilitySystem;
-    }
+	public StandardHyperdriveStabilityValidator(StandardHyperdriveStabilitySystem standardHyperdriveStabilitySystem) {
+		this.standardHyperdriveStabilitySystem = standardHyperdriveStabilitySystem;
+	}
 
-    @Override
-    public boolean isHyperdriveModuleStable(String id) {
-        return standardHyperdriveStabilitySystem.isHyperdriveModuleStable(id);
-    }
+	@Override
+	public boolean isHyperdriveModuleStable(String id) {
+		return standardHyperdriveStabilitySystem.isHyperdriveModuleStable(id);
+	}
 }

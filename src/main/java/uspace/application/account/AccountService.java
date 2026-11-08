@@ -10,31 +10,31 @@ import uspace.domain.account.exceptions.AccountNotFoundException;
 
 public class AccountService {
 
-    private final AccountRepository accountRepository;
-    private final AccountAssembler accountAssembler;
+	private final AccountRepository accountRepository;
+	private final AccountAssembler accountAssembler;
 
-    @Inject
-    public AccountService(AccountRepository accountRepository, AccountAssembler accountAssembler) {
-        this.accountRepository = accountRepository;
-        this.accountAssembler = accountAssembler;
-    }
+	@Inject
+	public AccountService(AccountRepository accountRepository, AccountAssembler accountAssembler) {
+		this.accountRepository = accountRepository;
+		this.accountAssembler = accountAssembler;
+	}
 
-    public void createAccount(AccountDto accountDto) {
-        Account account = accountRepository.findByUsername(new AccountUsername(accountDto.username));
-        if (account != null) {
-            throw new UsernameAlreadyExistsException();
-        }
+	public void createAccount(AccountDto accountDto) {
+		Account account = accountRepository.findByUsername(new AccountUsername(accountDto.username));
+		if (account != null) {
+			throw new UsernameAlreadyExistsException();
+		}
 
-        Account newAccount = accountAssembler.toAccount(accountDto);
-        accountRepository.save(newAccount);
-    }
+		Account newAccount = accountAssembler.toAccount(accountDto);
+		accountRepository.save(newAccount);
+	}
 
-    public AccountDto findAccount(String username) {
-        Account account = accountRepository.findByUsername(new AccountUsername(username));
-        if (account == null) {
-            throw new AccountNotFoundException();
-        }
+	public AccountDto findAccount(String username) {
+		Account account = accountRepository.findByUsername(new AccountUsername(username));
+		if (account == null) {
+			throw new AccountNotFoundException();
+		}
 
-        return accountAssembler.toDto(account);
-    }
+		return accountAssembler.toDto(account);
+	}
 }

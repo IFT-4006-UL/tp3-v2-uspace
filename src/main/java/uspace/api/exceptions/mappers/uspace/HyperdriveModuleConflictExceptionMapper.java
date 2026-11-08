@@ -9,9 +9,9 @@ import uspace.domain.cruise.hyperdrive.module.exceptions.HyperdriveModuleConflic
 @Provider
 public class HyperdriveModuleConflictExceptionMapper implements ExceptionMapper<HyperdriveModuleConflictException> {
 
-    @Override
-    public Response toResponse(HyperdriveModuleConflictException exception) {
-        ErrorResponse error = new ErrorResponse("MODULE_CONFLICT", exception.getMessage());
-        return Response.status(400).entity(error).build();
-    }
+	@Override
+	public Response toResponse(HyperdriveModuleConflictException exception) {
+		ErrorResponse error = new ErrorResponse("MODULE_CONFLICT", exception.getMessage());
+		return Response.status(400).entity(error).build();
+	}
 }

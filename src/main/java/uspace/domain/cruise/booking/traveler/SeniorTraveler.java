@@ -9,22 +9,23 @@ import java.util.List;
 @Entity
 public class SeniorTraveler extends Traveler {
 
-    public SeniorTraveler() {
-    }
+	public SeniorTraveler() {
+	}
 
-    public SeniorTraveler(TravelerId id, TravelerName name, List<Badge> badges, Oxygen oxygenConsumptionPerMinute) {
-        super(id, name, TravelerCategory.SENIOR, badges, oxygenConsumptionPerMinute);
-    }
+	public SeniorTraveler(TravelerId id, TravelerName name, List<Badge> badges, Oxygen oxygenConsumptionPerMinute) {
+		super(id, name, TravelerCategory.SENIOR, badges, oxygenConsumptionPerMinute);
+	}
 
-    @Override
-    public void bookZeroGravityExperience(ZeroGravityExperience zeroGravityExperience, List<Traveler> travelersInBooking) {
-        zeroGravityExperience.book(id);
-        earnOneTimeBadge(Badge.ZERO_G);
-        earnOneTimeBadge(Badge.STILL_GOT_IT);
-    }
+	@Override
+	public void bookZeroGravityExperience(ZeroGravityExperience zeroGravityExperience,
+			List<Traveler> travelersInBooking) {
+		zeroGravityExperience.book(id);
+		earnOneTimeBadge(Badge.ZERO_G);
+		earnOneTimeBadge(Badge.STILL_GOT_IT);
+	}
 
-    @Override
-    public boolean canAccompagnyChildForZeroGravityExperience(ZeroGravityExperience zeroGravityExperience) {
-        return zeroGravityExperience.hasTravelerBooked(id);
-    }
+	@Override
+	public boolean canAccompagnyChildForZeroGravityExperience(ZeroGravityExperience zeroGravityExperience) {
+		return zeroGravityExperience.hasTravelerBooked(id);
+	}
 }

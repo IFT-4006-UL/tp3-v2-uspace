@@ -8,15 +8,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RequiredOxygenAssemblerTest {
 
-    @Test
-    void whenConvertToDto_thenRoundRequiredOxygenToUpperInteger() {
-        RequiredOxygenAssembler requiredOxygenAssembler = new RequiredOxygenAssembler();
-        Oxygen anyOxygen = new Oxygen(1000.2);
-        int expectedRoundedRequiredOxygen = 1001;
+	@Test
+	void whenConvertToDto_thenRoundRequiredOxygenToUpperInteger() {
+		RequiredOxygenAssembler requiredOxygenAssembler = new RequiredOxygenAssembler();
+		Oxygen anyOxygen = new Oxygen(1000.2);
+		int expectedRoundedRequiredOxygen = 1001;
 
-        RequiredOxygenDto requiredOxygenDto = requiredOxygenAssembler.toDto(anyOxygen);
+		RequiredOxygenDto requiredOxygenDto = requiredOxygenAssembler.toDto(anyOxygen);
 
-        assertEquals(expectedRoundedRequiredOxygen, requiredOxygenDto.requiredOxygen);
-    }
+		assertEquals(expectedRoundedRequiredOxygen, requiredOxygenDto.requiredOxygen);
+	}
 
 }

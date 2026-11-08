@@ -9,18 +9,16 @@ import uspace.domain.cruise.hyperdrive.module.maintenance.HyperdriveMaintenanceI
 import java.util.List;
 
 public class HyperdriveMaintenanceAssembler {
-    public HyperdriveMaintenance toHyperdriveMaintenance(HyperdriveMaintenanceDto hyperdriveMaintenanceDto) {
-        List<EmployeeId> employeeIds = hyperdriveMaintenanceDto.employeeIds.stream().map(EmployeeId::new).toList();
+	public HyperdriveMaintenance toHyperdriveMaintenance(HyperdriveMaintenanceDto hyperdriveMaintenanceDto) {
+		List<EmployeeId> employeeIds = hyperdriveMaintenanceDto.employeeIds.stream().map(EmployeeId::new).toList();
 
-        return new HyperdriveMaintenance(new HyperdriveMaintenanceId(),
-                                        new HyperdriveMaintenanceDuration(hyperdriveMaintenanceDto.duration),
-                                         employeeIds);
-    }
+		return new HyperdriveMaintenance(new HyperdriveMaintenanceId(),
+				new HyperdriveMaintenanceDuration(hyperdriveMaintenanceDto.duration), employeeIds);
+	}
 
-    public HyperdriveMaintenanceDto toDto(HyperdriveMaintenance hyperdriveMaintenance) {
-        List<String> employeeIds = hyperdriveMaintenance.getEmployeeIds().stream().map(EmployeeId::toString).toList();
+	public HyperdriveMaintenanceDto toDto(HyperdriveMaintenance hyperdriveMaintenance) {
+		List<String> employeeIds = hyperdriveMaintenance.getEmployeeIds().stream().map(EmployeeId::toString).toList();
 
-        return new HyperdriveMaintenanceDto(hyperdriveMaintenance.getDuration().toInt(),
-                                         employeeIds);
-    }
+		return new HyperdriveMaintenanceDto(hyperdriveMaintenance.getDuration().toInt(), employeeIds);
+	}
 }

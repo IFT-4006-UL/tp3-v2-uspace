@@ -7,27 +7,27 @@ import uspace.domain.cruise.oxygen.Oxygen;
 
 @Entity
 public class CrewMember {
-    @Id
-    private EmployeeId employeeId;
+	@Id
+	private EmployeeId employeeId;
 
-    private CrewMemberName name;
+	private CrewMemberName name;
 
-    private Oxygen oxygenConsumptionPerMinute;
+	private Oxygen oxygenConsumptionPerMinute;
 
-    public CrewMember() {
-    }
+	public CrewMember() {
+	}
 
-    public CrewMember(EmployeeId employeeId, CrewMemberName name, Oxygen oxygenConsumptionPerMinute) {
-        this.employeeId = employeeId;
-        this.name = name;
-        this.oxygenConsumptionPerMinute = oxygenConsumptionPerMinute;
-    }
+	public CrewMember(EmployeeId employeeId, CrewMemberName name, Oxygen oxygenConsumptionPerMinute) {
+		this.employeeId = employeeId;
+		this.name = name;
+		this.oxygenConsumptionPerMinute = oxygenConsumptionPerMinute;
+	}
 
-    public EmployeeId getEmployeeId() {
-        return employeeId;
-    }
+	public EmployeeId getEmployeeId() {
+		return employeeId;
+	}
 
-    public Oxygen getOxygenConsumptionPerMinute() {
-        return oxygenConsumptionPerMinute;
-    }
+	public Oxygen getOxygenConsumptionPerMinute() {
+		return oxygenConsumptionPerMinute;
+	}
 }

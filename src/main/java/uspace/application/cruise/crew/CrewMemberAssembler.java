@@ -8,7 +8,8 @@ import uspace.domain.cruise.oxygen.Oxygen;
 
 public class CrewMemberAssembler {
 
-    public CrewMember toCrewMember(CrewMemberDto crewMemberDto, Oxygen crewMemberOxygenConsumptionPerMinute) {
-        return new CrewMember(new EmployeeId(crewMemberDto.employeeId), new CrewMemberName(crewMemberDto.name), crewMemberOxygenConsumptionPerMinute);
-    }
+	public CrewMember toCrewMember(CrewMemberDto crewMemberDto, Oxygen crewMemberOxygenConsumptionPerMinute) {
+		return new CrewMember(new EmployeeId(crewMemberDto.employeeId), new CrewMemberName(crewMemberDto.name),
+				crewMemberOxygenConsumptionPerMinute);
+	}
 }

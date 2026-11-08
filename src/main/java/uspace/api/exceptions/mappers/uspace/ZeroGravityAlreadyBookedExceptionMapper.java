@@ -7,11 +7,13 @@ import uspace.api.exceptions.ErrorResponse;
 import uspace.domain.cruise.zeroGravityExperience.exceptions.ZeroGravityExperienceAlreadyBookedException;
 
 @Provider
-public class ZeroGravityAlreadyBookedExceptionMapper implements ExceptionMapper<ZeroGravityExperienceAlreadyBookedException> {
+public class ZeroGravityAlreadyBookedExceptionMapper
+		implements
+			ExceptionMapper<ZeroGravityExperienceAlreadyBookedException> {
 
-    @Override
-    public Response toResponse(ZeroGravityExperienceAlreadyBookedException exception) {
-        ErrorResponse error = new ErrorResponse("ZERO_GRAVITY_EXPERIENCE_ALREADY_BOOKED", exception.getMessage());
-        return Response.status(400).entity(error).build();
-    }
+	@Override
+	public Response toResponse(ZeroGravityExperienceAlreadyBookedException exception) {
+		ErrorResponse error = new ErrorResponse("ZERO_GRAVITY_EXPERIENCE_ALREADY_BOOKED", exception.getMessage());
+		return Response.status(400).entity(error).build();
+	}
 }

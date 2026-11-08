@@ -11,24 +11,24 @@ import java.util.Map;
 
 public class TravelerFactory {
 
-    private final Map<TravelerCategory, Oxygen> travelersOxygenConsumptionPerMinute;
+	private final Map<TravelerCategory, Oxygen> travelersOxygenConsumptionPerMinute;
 
-    @Inject
-    public TravelerFactory(Map<TravelerCategory, Oxygen> travelersOxygenConsumptionPerMinute) {
-        this.travelersOxygenConsumptionPerMinute = travelersOxygenConsumptionPerMinute;
-    }
+	@Inject
+	public TravelerFactory(Map<TravelerCategory, Oxygen> travelersOxygenConsumptionPerMinute) {
+		this.travelersOxygenConsumptionPerMinute = travelersOxygenConsumptionPerMinute;
+	}
 
-    public Traveler create(String travelerNameStr, TravelerCategory travelerCategory) {
-        TravelerId travelerId = new TravelerId();
-        TravelerName travelerName = new TravelerName(travelerNameStr);
-        List<Badge> noBadgesInitial = new ArrayList<>();
-        Oxygen oxygenConsumptionPerMinute = travelersOxygenConsumptionPerMinute.get(travelerCategory);
+	public Traveler create(String travelerNameStr, TravelerCategory travelerCategory) {
+		TravelerId travelerId = new TravelerId();
+		TravelerName travelerName = new TravelerName(travelerNameStr);
+		List<Badge> noBadgesInitial = new ArrayList<>();
+		Oxygen oxygenConsumptionPerMinute = travelersOxygenConsumptionPerMinute.get(travelerCategory);
 
-        return switch (travelerCategory) {
-            case ADULT -> new AdultTraveler(travelerId, travelerName, noBadgesInitial, oxygenConsumptionPerMinute);
-            case CHILD -> new ChildTraveler(travelerId, travelerName, noBadgesInitial, oxygenConsumptionPerMinute);
-            case SENIOR -> new SeniorTraveler(travelerId, travelerName, noBadgesInitial, oxygenConsumptionPerMinute);
-            default -> throw new InvalidTravelerCategoryException();
-        };
-    }
+		return switch (travelerCategory) {
+			case ADULT -> new AdultTraveler(travelerId, travelerName, noBadgesInitial, oxygenConsumptionPerMinute);
+			case CHILD -> new ChildTraveler(travelerId, travelerName, noBadgesInitial, oxygenConsumptionPerMinute);
+			case SENIOR -> new SeniorTraveler(travelerId, travelerName, noBadgesInitial, oxygenConsumptionPerMinute);
+			default -> throw new InvalidTravelerCategoryException();
+		};
+	}
 }

@@ -9,9 +9,9 @@ import uspace.domain.cruise.exceptions.NoTravelerToBookException;
 @Provider
 public class NoTravelerToBookExceptionMapper implements ExceptionMapper<NoTravelerToBookException> {
 
-    @Override
-    public Response toResponse(NoTravelerToBookException exception) {
-        ErrorResponse error = new ErrorResponse("NO_TRAVELER", exception.getMessage());
-        return Response.status(400).entity(error).build();
-    }
+	@Override
+	public Response toResponse(NoTravelerToBookException exception) {
+		ErrorResponse error = new ErrorResponse("NO_TRAVELER", exception.getMessage());
+		return Response.status(400).entity(error).build();
+	}
 }

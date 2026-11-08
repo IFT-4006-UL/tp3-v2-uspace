@@ -9,9 +9,9 @@ import uspace.domain.cruise.hyperdrive.module.exceptions.HyperdriveModuleNotFoun
 @Provider
 public class HyperdriveModuleNotFoundExceptionMapper implements ExceptionMapper<HyperdriveModuleNotFoundException> {
 
-    @Override
-    public Response toResponse(HyperdriveModuleNotFoundException exception) {
-        ErrorResponse error = new ErrorResponse("HYPERDRIVE_MODULE_NOT_FOUND", exception.getMessage());
-        return Response.status(404).entity(error).build();
-    }
+	@Override
+	public Response toResponse(HyperdriveModuleNotFoundException exception) {
+		ErrorResponse error = new ErrorResponse("HYPERDRIVE_MODULE_NOT_FOUND", exception.getMessage());
+		return Response.status(404).entity(error).build();
+	}
 }

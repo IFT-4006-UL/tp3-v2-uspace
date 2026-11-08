@@ -1,6 +1,5 @@
 package uspace.api.cruise.booking.traveler;
 
-
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -14,25 +13,26 @@ import uspace.application.cruise.booking.traveler.TravelerService;
 @Produces(MediaType.APPLICATION_JSON)
 public class TravelerResource {
 
-    private final TravelerService travelerService;
-    private final ZeroGravityExperienceRequestValidator zeroGravityExperienceRequestValidator;
+	private final TravelerService travelerService;
+	private final ZeroGravityExperienceRequestValidator zeroGravityExperienceRequestValidator;
 
-    @Inject
-    public TravelerResource(TravelerService travelerService, ZeroGravityExperienceRequestValidator zeroGravityExperienceRequestValidator) {
-        this.travelerService = travelerService;
-        this.zeroGravityExperienceRequestValidator = zeroGravityExperienceRequestValidator;
-    }
+	@Inject
+	public TravelerResource(TravelerService travelerService,
+			ZeroGravityExperienceRequestValidator zeroGravityExperienceRequestValidator) {
+		this.travelerService = travelerService;
+		this.zeroGravityExperienceRequestValidator = zeroGravityExperienceRequestValidator;
+	}
 
-    @POST
-    @Path("/{travelerId}/zeroGravityExperiences")
-    public Response bookZeroGravityExperience(@PathParam("cruiseId") String cruiseId,
-                                              @PathParam("bookingId") String bookingId,
-                                              @PathParam("travelerId") String travelerId,
-                                              ZeroGravityExperienceRequest zeroGravityExperienceRequest) {
-        zeroGravityExperienceRequestValidator.validate(zeroGravityExperienceRequest);
+	@POST
+	@Path("/{travelerId}/zeroGravityExperiences")
+	public Response bookZeroGravityExperience(@PathParam("cruiseId") String cruiseId,
+			@PathParam("bookingId") String bookingId, @PathParam("travelerId") String travelerId,
+			ZeroGravityExperienceRequest zeroGravityExperienceRequest) {
+		zeroGravityExperienceRequestValidator.validate(zeroGravityExperienceRequest);
 
-        travelerService.bookZeroGravityExperience(cruiseId, bookingId, travelerId, zeroGravityExperienceRequest.experienceBookingDateTime);
+		travelerService.bookZeroGravityExperience(cruiseId, bookingId, travelerId,
+				zeroGravityExperienceRequest.experienceBookingDateTime);
 
-        return Response.ok().build();
-    }
+		return Response.ok().build();
+	}
 }

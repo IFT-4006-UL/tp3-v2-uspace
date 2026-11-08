@@ -16,81 +16,78 @@ import java.util.List;
 @Entity
 public class Booking {
 
-    @Id
-    private BookingId id;
+	@Id
+	private BookingId id;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Traveler> travelers;
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Traveler> travelers;
 
-    @Enumerated(EnumType.STRING)
-    private CabinType cabinType;
+	@Enumerated(EnumType.STRING)
+	private CabinType cabinType;
 
-    @Embedded
-    private CruiseDateTime bookingDateTime;
+	@Embedded
+	private CruiseDateTime bookingDateTime;
 
-    public Booking() {
+	public Booking() {
 
-    }
+	}
 
-    public Booking(BookingId id, List<Traveler> travelers, CabinType cabinType, CruiseDateTime bookingDateTime) {
-        this.id = id;
-        this.travelers = travelers;
-        this.cabinType = cabinType;
-        this.bookingDateTime = bookingDateTime;
-    }
+	public Booking(BookingId id, List<Traveler> travelers, CabinType cabinType, CruiseDateTime bookingDateTime) {
+		this.id = id;
+		this.travelers = travelers;
+		this.cabinType = cabinType;
+		this.bookingDateTime = bookingDateTime;
+	}
 
-    public BookingId getId() {
-        return id;
-    }
+	public BookingId getId() {
+		return id;
+	}
 
-    public CabinType getCabinType() {
-        return cabinType;
-    }
+	public CabinType getCabinType() {
+		return cabinType;
+	}
 
-    public List<Traveler> getTravelers() {
-        return travelers;
-    }
+	public List<Traveler> getTravelers() {
+		return travelers;
+	}
 
-    public CruiseDateTime getBookingDateTime() {
-        return bookingDateTime;
-    }
+	public CruiseDateTime getBookingDateTime() {
+		return bookingDateTime;
+	}
 
-    public void validate(CruiseDateTime cruiseDepartureDateTime) {
-        if (travelers.isEmpty()) {
-            throw new NoTravelerToBookException();
-        }
+	public void validate(CruiseDateTime cruiseDepartureDateTime) {
+		if (travelers.isEmpty()) {
+			throw new NoTravelerToBookException();
+		}
 
-        if (!bookingDateIsBeforeCruiseDeparture(cruiseDepartureDateTime)) {
-            throw new InvalidBookingDateException();
-        }
-    }
+		if (!bookingDateIsBeforeCruiseDeparture(cruiseDepartureDateTime)) {
+			throw new InvalidBookingDateException();
+		}
+	}
 
-    public void bookZeroGravityExperience(TravelerId travelerId, ZeroGravityExperience zeroGravityExperience) {
-        Traveler traveler = findTravelerById(travelerId);
-        if (traveler == null) {
-            throw new TravelerNotFoundException();
-        }
+	public void bookZeroGravityExperience(TravelerId travelerId, ZeroGravityExperience zeroGravityExperience) {
+		Traveler traveler = findTravelerById(travelerId);
+		if (traveler == null) {
+			throw new TravelerNotFoundException();
+		}
 
-        traveler.bookZeroGravityExperience(zeroGravityExperience, travelers);
-    }
+		traveler.bookZeroGravityExperience(zeroGravityExperience, travelers);
+	}
 
-    public Oxygen getTotalOxygenConsumptionPerMinutes() {
-        Oxygen totalOxygenConsumption = new Oxygen(0);
-        for (Traveler traveler : travelers) {
-            totalOxygenConsumption = totalOxygenConsumption.add(traveler.getOxygenConsumptionPerMinute());
-        }
+	public Oxygen getTotalOxygenConsumptionPerMinutes() {
+		Oxygen totalOxygenConsumption = new Oxygen(0);
+		for (Traveler traveler : travelers) {
+			totalOxygenConsumption = totalOxygenConsumption.add(traveler.getOxygenConsumptionPerMinute());
+		}
 
-        return totalOxygenConsumption;
-    }
+		return totalOxygenConsumption;
+	}
 
-    private boolean bookingDateIsBeforeCruiseDeparture(CruiseDateTime cruiseDepartureDateTime) {
-        return bookingDateTime.isBefore(cruiseDepartureDateTime);
-    }
+	private boolean bookingDateIsBeforeCruiseDeparture(CruiseDateTime cruiseDepartureDateTime) {
+		return bookingDateTime.isBefore(cruiseDepartureDateTime);
+	}
 
-    private Traveler findTravelerById(TravelerId travelerId) {
-        return travelers.stream()
-                        .filter(traveler -> traveler.getId().equals(travelerId))
-                        .findFirst()
-                        .orElse(null);
-    }
+	private Traveler findTravelerById(TravelerId travelerId) {
+		return travelers.stream().filter(traveler -> traveler.getId().equals(travelerId)).findFirst().orElse(null);
+	}
 }

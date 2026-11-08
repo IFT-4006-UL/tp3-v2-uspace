@@ -11,62 +11,61 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Traveler {
 
-    @Id
-    protected TravelerId id;
+	@Id
+	protected TravelerId id;
 
-    private TravelerName name;
+	private TravelerName name;
 
-    @Enumerated(EnumType.STRING)
-    private TravelerCategory category;
+	@Enumerated(EnumType.STRING)
+	private TravelerCategory category;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Enumerated(EnumType.STRING)
-    private List<Badge> badges;
+	@ElementCollection(fetch = FetchType.EAGER)
+	@Enumerated(EnumType.STRING)
+	private List<Badge> badges;
 
-    private Oxygen oxygenConsumptionPerMinute;
+	private Oxygen oxygenConsumptionPerMinute;
 
-    protected Traveler() {
+	protected Traveler() {
 
-    }
+	}
 
-    protected Traveler(TravelerId id, TravelerName name, TravelerCategory category, List<Badge> badges, Oxygen oxygenConsumptionPerMinute)
-    {
-        this.id = id;
-        this.name = name;
-        this.category = category;
-        this.badges = badges;
-        this.oxygenConsumptionPerMinute = oxygenConsumptionPerMinute;
-    }
+	protected Traveler(TravelerId id, TravelerName name, TravelerCategory category, List<Badge> badges,
+			Oxygen oxygenConsumptionPerMinute) {
+		this.id = id;
+		this.name = name;
+		this.category = category;
+		this.badges = badges;
+		this.oxygenConsumptionPerMinute = oxygenConsumptionPerMinute;
+	}
 
-    public TravelerId getId() {
-        return id;
-    }
+	public TravelerId getId() {
+		return id;
+	}
 
-    public TravelerName getName() {
-        return name;
-    }
+	public TravelerName getName() {
+		return name;
+	}
 
-    public TravelerCategory getCategory() {
-        return category;
-    }
+	public TravelerCategory getCategory() {
+		return category;
+	}
 
-    public List<Badge> getBadges() {
-        return badges;
-    }
+	public List<Badge> getBadges() {
+		return badges;
+	}
 
-    public abstract void bookZeroGravityExperience(ZeroGravityExperience zeroGravityExperience,
-                                                   List<Traveler> travelersInBooking);
+	public abstract void bookZeroGravityExperience(ZeroGravityExperience zeroGravityExperience,
+			List<Traveler> travelersInBooking);
 
-    public abstract boolean canAccompagnyChildForZeroGravityExperience(ZeroGravityExperience zeroGravityExperience);
+	public abstract boolean canAccompagnyChildForZeroGravityExperience(ZeroGravityExperience zeroGravityExperience);
 
-    public Oxygen getOxygenConsumptionPerMinute() {
-        return oxygenConsumptionPerMinute;
-    }
+	public Oxygen getOxygenConsumptionPerMinute() {
+		return oxygenConsumptionPerMinute;
+	}
 
-    protected void earnOneTimeBadge(Badge badge) {
-        if (!badges.contains(badge))
-        {
-            badges.add(badge);
-        }
-    }
+	protected void earnOneTimeBadge(Badge badge) {
+		if (!badges.contains(badge)) {
+			badges.add(badge);
+		}
+	}
 }

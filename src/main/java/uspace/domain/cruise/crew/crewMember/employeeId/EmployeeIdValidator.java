@@ -7,12 +7,12 @@ import jakarta.persistence.*;
 @DiscriminatorColumn(name = "employee_id_validator_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class EmployeeIdValidator {
 
-    @Id
-    protected EmployeeIdValidatorId id;
+	@Id
+	protected EmployeeIdValidatorId id;
 
-    protected EmployeeIdValidator() {
-        id = new EmployeeIdValidatorId();
-    }
+	protected EmployeeIdValidator() {
+		id = new EmployeeIdValidatorId();
+	}
 
-    public abstract boolean isValid(EmployeeId employeeId);
+	public abstract boolean isValid(EmployeeId employeeId);
 }

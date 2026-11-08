@@ -10,35 +10,35 @@ import uspace.domain.cruise.CruiseId;
 import uspace.domain.cruise.CruiseRepository;
 
 public class HibernateCruiseRepository implements CruiseRepository {
-    private final Logger logger = LoggerFactory.getLogger(UspaceMain.class);
+	private final Logger logger = LoggerFactory.getLogger(UspaceMain.class);
 
-    @Override
-    public Cruise findById(CruiseId cruiseId) {
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.get(Cruise.class, cruiseId);
-        } catch (Exception e) {
-            logger.error("Error while trying to find cruise with id " + cruiseId, e);
-            throw e;
-        }
-    }
+	@Override
+	public Cruise findById(CruiseId cruiseId) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.get(Cruise.class, cruiseId);
+		} catch (Exception e) {
+			logger.error("Error while trying to find cruise with id " + cruiseId, e);
+			throw e;
+		}
+	}
 
-    @Override
-    public void save(Cruise cruise) {
-        Transaction transaction = null;
+	@Override
+	public void save(Cruise cruise) {
+		Transaction transaction = null;
 
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
 
-            session.saveOrUpdate(cruise);
+			session.saveOrUpdate(cruise);
 
-            transaction.commit();
-        } catch (Exception e) {
-            logger.error("Error while trying to save cruise with id " + cruise.getId(), e);
+			transaction.commit();
+		} catch (Exception e) {
+			logger.error("Error while trying to save cruise with id " + cruise.getId(), e);
 
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw e;
-        }
-    }
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw e;
+		}
+	}
 }

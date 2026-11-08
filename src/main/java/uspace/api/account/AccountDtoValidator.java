@@ -5,12 +5,12 @@ import uspace.domain.exceptions.MissingParameterException;
 
 public class AccountDtoValidator {
 
-    public void validate(AccountDto accountDto) {
-        if (accountDto.username == null || accountDto.username.isEmpty()) {
-            throw new MissingParameterException("username");
-        }
-        if (accountDto.homePlanetName == null || accountDto.homePlanetName.isEmpty()) {
-            throw new MissingParameterException("homePlanetName");
-        }
-    }
+	public void validate(AccountDto accountDto) {
+		if (accountDto.username == null || accountDto.username.isEmpty()) {
+			throw new MissingParameterException("username");
+		}
+		if (accountDto.homePlanetName == null || accountDto.homePlanetName.isEmpty()) {
+			throw new MissingParameterException("homePlanetName");
+		}
+	}
 }

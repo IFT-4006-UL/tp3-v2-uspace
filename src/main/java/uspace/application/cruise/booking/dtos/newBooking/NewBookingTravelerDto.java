@@ -1,14 +1,14 @@
 package uspace.application.cruise.booking.dtos.newBooking;
 
 public class NewBookingTravelerDto {
-    public String name;
-    public String category;
+	public String name;
+	public String category;
 
-    public NewBookingTravelerDto() {
-    }
+	public NewBookingTravelerDto() {
+	}
 
-    public NewBookingTravelerDto(String name, String category) {
-        this.name = name;
-        this.category = category;
-    }
+	public NewBookingTravelerDto(String name, String category) {
+		this.name = name;
+		this.category = category;
+	}
 }

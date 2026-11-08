@@ -28,106 +28,107 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class CrewTest {
 
-    private Crew crew;
-    private static final CrewId ANY_CREW_ID = new CrewId();
-    private static final EmployeeId ANY_EMPLOYEE_ID = new EmployeeId();
-    private static final CrewMemberName ANY_CREW_MEMBER_NAME = new CrewMemberName("ANY_CREW_MEMBER_NAME");
-    private static final Oxygen ANY_OXYGEN_CONSUMPTION_PER_MINUTE = new Oxygen(100);
-    private static final CrewMember ANY_CREW_MEMBER = new CrewMember(ANY_EMPLOYEE_ID, ANY_CREW_MEMBER_NAME, ANY_OXYGEN_CONSUMPTION_PER_MINUTE);
-    @Mock
-    private CrewMemberCollection crewMemberCollectionMock;
-    @Mock
-    private EmployeeIdValidator employeeIdValidatorMock;
-    @Mock
-    private CabinAvailabilities cabinAvailabilitiesMock;
-    @Mock
-    private CrewMember crewMemberMock;
-    @Mock
-    private CrewMember otherCrewMemberMock;
+	private Crew crew;
+	private static final CrewId ANY_CREW_ID = new CrewId();
+	private static final EmployeeId ANY_EMPLOYEE_ID = new EmployeeId();
+	private static final CrewMemberName ANY_CREW_MEMBER_NAME = new CrewMemberName("ANY_CREW_MEMBER_NAME");
+	private static final Oxygen ANY_OXYGEN_CONSUMPTION_PER_MINUTE = new Oxygen(100);
+	private static final CrewMember ANY_CREW_MEMBER = new CrewMember(ANY_EMPLOYEE_ID, ANY_CREW_MEMBER_NAME,
+			ANY_OXYGEN_CONSUMPTION_PER_MINUTE);
+	@Mock
+	private CrewMemberCollection crewMemberCollectionMock;
+	@Mock
+	private EmployeeIdValidator employeeIdValidatorMock;
+	@Mock
+	private CabinAvailabilities cabinAvailabilitiesMock;
+	@Mock
+	private CrewMember crewMemberMock;
+	@Mock
+	private CrewMember otherCrewMemberMock;
 
-    @BeforeEach
-    void createCrew() {
-        crew = new Crew(ANY_CREW_ID, crewMemberCollectionMock, employeeIdValidatorMock);
-    }
+	@BeforeEach
+	void createCrew() {
+		crew = new Crew(ANY_CREW_ID, crewMemberCollectionMock, employeeIdValidatorMock);
+	}
 
-    @Test
-    void givenEmployeeIdInvalid_whenAddCrewMember_thenThrowInvalidEmployeeIdFormatException() {
-        givenEmployeeIdInvalid();
+	@Test
+	void givenEmployeeIdInvalid_whenAddCrewMember_thenThrowInvalidEmployeeIdFormatException() {
+		givenEmployeeIdInvalid();
 
-        Executable addCrewMember = () -> crew.addCrewMember(ANY_CREW_MEMBER, cabinAvailabilitiesMock);
+		Executable addCrewMember = () -> crew.addCrewMember(ANY_CREW_MEMBER, cabinAvailabilitiesMock);
 
-        assertThrows(InvalidEmployeeIdFormatException.class, addCrewMember);
-    }
+		assertThrows(InvalidEmployeeIdFormatException.class, addCrewMember);
+	}
 
-    @Test
-    void givenEmployeeIdValidAndCrewMemberAlreadyInCruise_whenAddCrewMember_thenThrowCrewMemberAlreadyInCruiseException() {
-        givenEmployeeIdValid();
-        givenCrewMemberInCruise();
+	@Test
+	void givenEmployeeIdValidAndCrewMemberAlreadyInCruise_whenAddCrewMember_thenThrowCrewMemberAlreadyInCruiseException() {
+		givenEmployeeIdValid();
+		givenCrewMemberInCruise();
 
-        Executable addCrewMember = () -> crew.addCrewMember(ANY_CREW_MEMBER, cabinAvailabilitiesMock);
+		Executable addCrewMember = () -> crew.addCrewMember(ANY_CREW_MEMBER, cabinAvailabilitiesMock);
 
-        assertThrows(CrewMemberAlreadyInCruiseException.class, addCrewMember);
-    }
+		assertThrows(CrewMemberAlreadyInCruiseException.class, addCrewMember);
+	}
 
-    @Test
-    void givenEmployeeIdValidAndCrewMemberNotInCruise_whenAddCrewMember_thenBookStandardCabin() {
-        givenEmployeeIdValid();
-        givenCrewMemberNotInCruise();
+	@Test
+	void givenEmployeeIdValidAndCrewMemberNotInCruise_whenAddCrewMember_thenBookStandardCabin() {
+		givenEmployeeIdValid();
+		givenCrewMemberNotInCruise();
 
-        crew.addCrewMember(ANY_CREW_MEMBER, cabinAvailabilitiesMock);
+		crew.addCrewMember(ANY_CREW_MEMBER, cabinAvailabilitiesMock);
 
-        verify(cabinAvailabilitiesMock).bookCabin(CabinType.STANDARD);
-    }
+		verify(cabinAvailabilitiesMock).bookCabin(CabinType.STANDARD);
+	}
 
-    @Test
-    void givenEmployeeIdValidAndCrewMemberNotInCruise_whenAddCrewMember_thenAddCrewMemberToCollection() {
-        givenEmployeeIdValid();
-        givenCrewMemberNotInCruise();
+	@Test
+	void givenEmployeeIdValidAndCrewMemberNotInCruise_whenAddCrewMember_thenAddCrewMemberToCollection() {
+		givenEmployeeIdValid();
+		givenCrewMemberNotInCruise();
 
-        crew.addCrewMember(ANY_CREW_MEMBER, cabinAvailabilitiesMock);
+		crew.addCrewMember(ANY_CREW_MEMBER, cabinAvailabilitiesMock);
 
-        verify(crewMemberCollectionMock).add(ANY_CREW_MEMBER);
-    }
+		verify(crewMemberCollectionMock).add(ANY_CREW_MEMBER);
+	}
 
-    @Test
-    void givenNoCrewMember_whenGetTotalOxygenConsumptionPerMinutes_thenReturnZero() {
-        Oxygen zeroOxygen = new Oxygen(0);
-        List<CrewMember> noCrewMember = new ArrayList<>();
-        when(crewMemberCollectionMock.findAll()).thenReturn(noCrewMember);
+	@Test
+	void givenNoCrewMember_whenGetTotalOxygenConsumptionPerMinutes_thenReturnZero() {
+		Oxygen zeroOxygen = new Oxygen(0);
+		List<CrewMember> noCrewMember = new ArrayList<>();
+		when(crewMemberCollectionMock.findAll()).thenReturn(noCrewMember);
 
-        Oxygen totalOxygenConsumptionPerMinutes = crew.getTotalOxygenConsumptionPerMinutes();
+		Oxygen totalOxygenConsumptionPerMinutes = crew.getTotalOxygenConsumptionPerMinutes();
 
-        assertEquals(zeroOxygen, totalOxygenConsumptionPerMinutes);
-    }
+		assertEquals(zeroOxygen, totalOxygenConsumptionPerMinutes);
+	}
 
-    @Test
-    void givenTravelers_whenGetTotalOxygenConsumptionPerMinutes_thenReturnTotalOxygenConsumptionForAllTravelers() {
-        Oxygen anyOxygen = new Oxygen(100);
-        Oxygen anyOtherOxygen = new Oxygen(555);
-        Oxygen expectedTotalOxygenConsumption = new Oxygen(655);
-        when(crewMemberMock.getOxygenConsumptionPerMinute()).thenReturn(anyOxygen);
-        when(otherCrewMemberMock.getOxygenConsumptionPerMinute()).thenReturn(anyOtherOxygen);
-        List<CrewMember> anyCrewMembers = new ArrayList<>(List.of(crewMemberMock, otherCrewMemberMock));
-        when(crewMemberCollectionMock.findAll()).thenReturn(anyCrewMembers);
+	@Test
+	void givenTravelers_whenGetTotalOxygenConsumptionPerMinutes_thenReturnTotalOxygenConsumptionForAllTravelers() {
+		Oxygen anyOxygen = new Oxygen(100);
+		Oxygen anyOtherOxygen = new Oxygen(555);
+		Oxygen expectedTotalOxygenConsumption = new Oxygen(655);
+		when(crewMemberMock.getOxygenConsumptionPerMinute()).thenReturn(anyOxygen);
+		when(otherCrewMemberMock.getOxygenConsumptionPerMinute()).thenReturn(anyOtherOxygen);
+		List<CrewMember> anyCrewMembers = new ArrayList<>(List.of(crewMemberMock, otherCrewMemberMock));
+		when(crewMemberCollectionMock.findAll()).thenReturn(anyCrewMembers);
 
-        Oxygen totalOxygenConsumptionPerMinutes = crew.getTotalOxygenConsumptionPerMinutes();
+		Oxygen totalOxygenConsumptionPerMinutes = crew.getTotalOxygenConsumptionPerMinutes();
 
-        assertEquals(expectedTotalOxygenConsumption, totalOxygenConsumptionPerMinutes);
-    }
+		assertEquals(expectedTotalOxygenConsumption, totalOxygenConsumptionPerMinutes);
+	}
 
-    private void givenCrewMemberInCruise() {
-        when(crewMemberCollectionMock.findByEmployeeId(ANY_EMPLOYEE_ID)).thenReturn(ANY_CREW_MEMBER);
-    }
+	private void givenCrewMemberInCruise() {
+		when(crewMemberCollectionMock.findByEmployeeId(ANY_EMPLOYEE_ID)).thenReturn(ANY_CREW_MEMBER);
+	}
 
-    private void givenCrewMemberNotInCruise() {
-        when(crewMemberCollectionMock.findByEmployeeId(ANY_EMPLOYEE_ID)).thenReturn(null);
-    }
+	private void givenCrewMemberNotInCruise() {
+		when(crewMemberCollectionMock.findByEmployeeId(ANY_EMPLOYEE_ID)).thenReturn(null);
+	}
 
-    private void givenEmployeeIdInvalid() {
-        when(employeeIdValidatorMock.isValid(ANY_EMPLOYEE_ID)).thenReturn(false);
-    }
+	private void givenEmployeeIdInvalid() {
+		when(employeeIdValidatorMock.isValid(ANY_EMPLOYEE_ID)).thenReturn(false);
+	}
 
-    private void givenEmployeeIdValid() {
-        when(employeeIdValidatorMock.isValid(ANY_EMPLOYEE_ID)).thenReturn(true);
-    }
+	private void givenEmployeeIdValid() {
+		when(employeeIdValidatorMock.isValid(ANY_EMPLOYEE_ID)).thenReturn(true);
+	}
 }

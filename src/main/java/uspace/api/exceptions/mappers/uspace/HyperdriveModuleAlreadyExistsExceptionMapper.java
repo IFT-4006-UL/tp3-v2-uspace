@@ -7,11 +7,13 @@ import uspace.api.exceptions.ErrorResponse;
 import uspace.domain.cruise.hyperdrive.module.exceptions.HyperdriveModuleAlreadyExistsException;
 
 @Provider
-public class HyperdriveModuleAlreadyExistsExceptionMapper implements ExceptionMapper<HyperdriveModuleAlreadyExistsException> {
+public class HyperdriveModuleAlreadyExistsExceptionMapper
+		implements
+			ExceptionMapper<HyperdriveModuleAlreadyExistsException> {
 
-    @Override
-    public Response toResponse(HyperdriveModuleAlreadyExistsException exception) {
-        ErrorResponse error = new ErrorResponse("MODULE_ALREADY_EXISTS", exception.getMessage());
-        return Response.status(400).entity(error).build();
-    }
+	@Override
+	public Response toResponse(HyperdriveModuleAlreadyExistsException exception) {
+		ErrorResponse error = new ErrorResponse("MODULE_ALREADY_EXISTS", exception.getMessage());
+		return Response.status(400).entity(error).build();
+	}
 }

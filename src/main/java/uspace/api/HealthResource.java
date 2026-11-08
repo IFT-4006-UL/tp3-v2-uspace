@@ -6,8 +6,8 @@ import jakarta.ws.rs.core.Response;
 
 @Path("/health")
 public class HealthResource {
-    @GET
-    public Response health() {
-        return Response.ok("Health Ok").build();
-    }
+	@GET
+	public Response health() {
+		return Response.ok("Health Ok").build();
+	}
 }

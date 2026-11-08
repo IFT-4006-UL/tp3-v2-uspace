@@ -12,31 +12,26 @@ import uspace.domain.cruise.crew.crewMember.employeeId.EmployeeId;
 import java.util.List;
 
 public class CruiseAssembler {
-    private final HyperdriveModuleAssembler hyperdriveModuleAssembler;
+	private final HyperdriveModuleAssembler hyperdriveModuleAssembler;
 
-    @Inject
-    public CruiseAssembler(HyperdriveModuleAssembler hyperdriveModuleAssembler) {
-        this.hyperdriveModuleAssembler = hyperdriveModuleAssembler;
-    }
+	@Inject
+	public CruiseAssembler(HyperdriveModuleAssembler hyperdriveModuleAssembler) {
+		this.hyperdriveModuleAssembler = hyperdriveModuleAssembler;
+	}
 
-    public CruiseDto toDto(Cruise cruise) {
-        List<HyperdriveModuleDto> hyperdriveModuleDtos = createHyperdriveModuleDtos(cruise.getHyperdriveModules());
-        List<String> crewMembersIds = getCrewMembersIds(cruise);
+	public CruiseDto toDto(Cruise cruise) {
+		List<HyperdriveModuleDto> hyperdriveModuleDtos = createHyperdriveModuleDtos(cruise.getHyperdriveModules());
+		List<String> crewMembersIds = getCrewMembersIds(cruise);
 
-        return new CruiseDto(
-            cruise.getId().toString(),
-            cruise.getDepartureDateTime().toString(),
-            cruise.getEndDateTime().toString(),
-            hyperdriveModuleDtos,
-            crewMembersIds
-        );
-    }
+		return new CruiseDto(cruise.getId().toString(), cruise.getDepartureDateTime().toString(),
+				cruise.getEndDateTime().toString(), hyperdriveModuleDtos, crewMembersIds);
+	}
 
-    private List<HyperdriveModuleDto> createHyperdriveModuleDtos(List<HyperdriveModule> hyperdriveModules) {
-        return hyperdriveModules.stream().map(hyperdriveModuleAssembler::toDto).toList();
-    }
+	private List<HyperdriveModuleDto> createHyperdriveModuleDtos(List<HyperdriveModule> hyperdriveModules) {
+		return hyperdriveModules.stream().map(hyperdriveModuleAssembler::toDto).toList();
+	}
 
-    private List<String> getCrewMembersIds(Cruise cruise) {
-        return cruise.getCrewMembers().stream().map(CrewMember::getEmployeeId).map(EmployeeId::toString).toList();
-    }
+	private List<String> getCrewMembersIds(Cruise cruise) {
+		return cruise.getCrewMembers().stream().map(CrewMember::getEmployeeId).map(EmployeeId::toString).toList();
+	}
 }

@@ -36,118 +36,124 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class CruiseTest {
 
-    private static final CruiseId ANY_CRUISE_ID = new CruiseId("ANY_CRUISE_ID");
-    private static final LocalDateTime ANY_LOCAL_DEPARTURE_DATE_TIME = LocalDateTime.of(2222, 3, 4, 1, 2);
-    private static final CruiseDateTime ANY_DEPARTURE_DATE_TIME = new CruiseDateTime(ANY_LOCAL_DEPARTURE_DATE_TIME);
-    private static final CruiseDateTime ANY_END_DATE_TIME = new CruiseDateTime(ANY_LOCAL_DEPARTURE_DATE_TIME.plusDays(1));
-    private static final CruiseDateTime ANY_DATE_TIME_BEFORE_DEPARTURE = new CruiseDateTime(
-            ANY_LOCAL_DEPARTURE_DATE_TIME.minusHours(1));
-    private static final CruiseDateTime ANY_DATE_TIME_AFTER_DEPARTURE = new CruiseDateTime(ANY_LOCAL_DEPARTURE_DATE_TIME.plusHours(1));
-    private static final CruiseDateTime ANY_DATE_TIME_DURING_CRUISE = new CruiseDateTime(ANY_LOCAL_DEPARTURE_DATE_TIME.plusHours(1));
-    private static final CruiseDateTime ANY_DATE_TIME_AFTER_END = new CruiseDateTime(ANY_LOCAL_DEPARTURE_DATE_TIME.plusDays(2));
-    private static final BookingId ANY_BOOKING_ID = new BookingId("ANY_BOOKING_ID");
-    private static final TravelerId ANY_TRAVELER_ID = new TravelerId();
-    private static final CrewMember ANY_CREW_MEMBER = new CrewMember();
-    private static final HyperdriveModuleId ANY_HYPERDRIVE_MODULE_ID = new HyperdriveModuleId("anyId");
-    private static final Oxygen ANY_OXYGEN = new Oxygen(2222);
-    private Cruise cruise;
-    @Mock
-    private CruiseBookings cruiseBookingsMock;
-    @Mock
-    private CabinAvailabilities cabinAvailabilitiesMock;
-    @Mock
-    private ZeroGravityExperience zeroGravityExperienceMock;
-    @Mock
-    private Booking bookingMock;
-    @Mock
-    private HyperdriveInventory hyperdriveInventoryMock;
-    @Mock
-    private HyperdriveMaintenance hyperdriveMaintenanceMock;
-    @Mock
-    private Crew crewMock;
-    @Mock
-    private OxygenCalculatorFactory oxygenCalculatorFactoryMock;
-    @Mock
-    private OxygenCalculator oxygenCalculatorMock;
+	private static final CruiseId ANY_CRUISE_ID = new CruiseId("ANY_CRUISE_ID");
+	private static final LocalDateTime ANY_LOCAL_DEPARTURE_DATE_TIME = LocalDateTime.of(2222, 3, 4, 1, 2);
+	private static final CruiseDateTime ANY_DEPARTURE_DATE_TIME = new CruiseDateTime(ANY_LOCAL_DEPARTURE_DATE_TIME);
+	private static final CruiseDateTime ANY_END_DATE_TIME = new CruiseDateTime(
+			ANY_LOCAL_DEPARTURE_DATE_TIME.plusDays(1));
+	private static final CruiseDateTime ANY_DATE_TIME_BEFORE_DEPARTURE = new CruiseDateTime(
+			ANY_LOCAL_DEPARTURE_DATE_TIME.minusHours(1));
+	private static final CruiseDateTime ANY_DATE_TIME_AFTER_DEPARTURE = new CruiseDateTime(
+			ANY_LOCAL_DEPARTURE_DATE_TIME.plusHours(1));
+	private static final CruiseDateTime ANY_DATE_TIME_DURING_CRUISE = new CruiseDateTime(
+			ANY_LOCAL_DEPARTURE_DATE_TIME.plusHours(1));
+	private static final CruiseDateTime ANY_DATE_TIME_AFTER_END = new CruiseDateTime(
+			ANY_LOCAL_DEPARTURE_DATE_TIME.plusDays(2));
+	private static final BookingId ANY_BOOKING_ID = new BookingId("ANY_BOOKING_ID");
+	private static final TravelerId ANY_TRAVELER_ID = new TravelerId();
+	private static final CrewMember ANY_CREW_MEMBER = new CrewMember();
+	private static final HyperdriveModuleId ANY_HYPERDRIVE_MODULE_ID = new HyperdriveModuleId("anyId");
+	private static final Oxygen ANY_OXYGEN = new Oxygen(2222);
+	private Cruise cruise;
+	@Mock
+	private CruiseBookings cruiseBookingsMock;
+	@Mock
+	private CabinAvailabilities cabinAvailabilitiesMock;
+	@Mock
+	private ZeroGravityExperience zeroGravityExperienceMock;
+	@Mock
+	private Booking bookingMock;
+	@Mock
+	private HyperdriveInventory hyperdriveInventoryMock;
+	@Mock
+	private HyperdriveMaintenance hyperdriveMaintenanceMock;
+	@Mock
+	private Crew crewMock;
+	@Mock
+	private OxygenCalculatorFactory oxygenCalculatorFactoryMock;
+	@Mock
+	private OxygenCalculator oxygenCalculatorMock;
 
-    @BeforeEach
-    void createCruise() {
-        cruise = new Cruise(ANY_CRUISE_ID, ANY_DEPARTURE_DATE_TIME, ANY_END_DATE_TIME,
-                            cabinAvailabilitiesMock, cruiseBookingsMock, zeroGravityExperienceMock,
-                            hyperdriveInventoryMock, crewMock, oxygenCalculatorFactoryMock);
-    }
+	@BeforeEach
+	void createCruise() {
+		cruise = new Cruise(ANY_CRUISE_ID, ANY_DEPARTURE_DATE_TIME, ANY_END_DATE_TIME, cabinAvailabilitiesMock,
+				cruiseBookingsMock, zeroGravityExperienceMock, hyperdriveInventoryMock, crewMock,
+				oxygenCalculatorFactoryMock);
+	}
 
-    @Test
-    void givenExperienceBookingDateTimeAfterDeparture_whenBookZeroGravityExperience_thenThrowZeroGravityExperienceBookingTimeException() {
-        Executable bookZeroGravityExperience = () -> cruise.bookZeroGravityExperience(ANY_BOOKING_ID, ANY_TRAVELER_ID,
-                                                                                      ANY_DATE_TIME_AFTER_DEPARTURE);
+	@Test
+	void givenExperienceBookingDateTimeAfterDeparture_whenBookZeroGravityExperience_thenThrowZeroGravityExperienceBookingTimeException() {
+		Executable bookZeroGravityExperience = () -> cruise.bookZeroGravityExperience(ANY_BOOKING_ID, ANY_TRAVELER_ID,
+				ANY_DATE_TIME_AFTER_DEPARTURE);
 
-        assertThrows(ZeroGravityExperienceBookingTimeException.class, bookZeroGravityExperience);
-    }
+		assertThrows(ZeroGravityExperienceBookingTimeException.class, bookZeroGravityExperience);
+	}
 
-    @Test
-    void givenExperienceBookingDateTimeBeforeDepartureAndNonExistingBookingId_whenBookZeroGravityExperience_thenThrowTravelerNotFoundException() {
-        Executable bookZeroGravityExperience = () -> cruise.bookZeroGravityExperience(ANY_BOOKING_ID, ANY_TRAVELER_ID,
-                                                                                      ANY_DATE_TIME_BEFORE_DEPARTURE);
+	@Test
+	void givenExperienceBookingDateTimeBeforeDepartureAndNonExistingBookingId_whenBookZeroGravityExperience_thenThrowTravelerNotFoundException() {
+		Executable bookZeroGravityExperience = () -> cruise.bookZeroGravityExperience(ANY_BOOKING_ID, ANY_TRAVELER_ID,
+				ANY_DATE_TIME_BEFORE_DEPARTURE);
 
-        assertThrows(TravelerNotFoundException.class, bookZeroGravityExperience);
-    }
+		assertThrows(TravelerNotFoundException.class, bookZeroGravityExperience);
+	}
 
-    @Test
-    void givenExperienceBookingDateTimeBeforeDepartureAndExistingBookingId_whenBookZeroGravityExperience_thenBookingBookZeroGravityExperience() {
-        when(cruiseBookingsMock.findById(ANY_BOOKING_ID)).thenReturn(bookingMock);
+	@Test
+	void givenExperienceBookingDateTimeBeforeDepartureAndExistingBookingId_whenBookZeroGravityExperience_thenBookingBookZeroGravityExperience() {
+		when(cruiseBookingsMock.findById(ANY_BOOKING_ID)).thenReturn(bookingMock);
 
-        cruise.bookZeroGravityExperience(ANY_BOOKING_ID, ANY_TRAVELER_ID, ANY_DATE_TIME_BEFORE_DEPARTURE);
+		cruise.bookZeroGravityExperience(ANY_BOOKING_ID, ANY_TRAVELER_ID, ANY_DATE_TIME_BEFORE_DEPARTURE);
 
-        verify(bookingMock).bookZeroGravityExperience(ANY_TRAVELER_ID, zeroGravityExperienceMock);
-    }
+		verify(bookingMock).bookZeroGravityExperience(ANY_TRAVELER_ID, zeroGravityExperienceMock);
+	}
 
-    @Test
-    void whenAddCrewMember_thenCrewAddCrewMemberBasedOnCabinAvailabilities() {
-        cruise.addCrewMember(ANY_CREW_MEMBER);
+	@Test
+	void whenAddCrewMember_thenCrewAddCrewMemberBasedOnCabinAvailabilities() {
+		cruise.addCrewMember(ANY_CREW_MEMBER);
 
-        verify(crewMock).addCrewMember(ANY_CREW_MEMBER, cabinAvailabilitiesMock);
-    }
+		verify(crewMock).addCrewMember(ANY_CREW_MEMBER, cabinAvailabilitiesMock);
+	}
 
-    @Test
-    void givenMaintenanceWithInvalidEmployees_whenAddHyperdriveMaintenance_thenThrowEmployeeNotFoundException() {
-        when(hyperdriveMaintenanceMock.hasValidEmployees(crewMock)).thenReturn(false);
+	@Test
+	void givenMaintenanceWithInvalidEmployees_whenAddHyperdriveMaintenance_thenThrowEmployeeNotFoundException() {
+		when(hyperdriveMaintenanceMock.hasValidEmployees(crewMock)).thenReturn(false);
 
-        Executable addHyperdriveMaintenance = () -> cruise.addHyperdriveMaintenance(ANY_HYPERDRIVE_MODULE_ID, hyperdriveMaintenanceMock);
+		Executable addHyperdriveMaintenance = () -> cruise.addHyperdriveMaintenance(ANY_HYPERDRIVE_MODULE_ID,
+				hyperdriveMaintenanceMock);
 
-        assertThrows(EmployeeNotFoundException.class, addHyperdriveMaintenance);
-    }
+		assertThrows(EmployeeNotFoundException.class, addHyperdriveMaintenance);
+	}
 
-    @Test
-    void givenMaintenanceWithValidEmployees_whenAddHyperdriveMaintenance_thenAddMaintenanceToHyperdriveInventory() {
-        when(hyperdriveMaintenanceMock.hasValidEmployees(crewMock)).thenReturn(true);
+	@Test
+	void givenMaintenanceWithValidEmployees_whenAddHyperdriveMaintenance_thenAddMaintenanceToHyperdriveInventory() {
+		when(hyperdriveMaintenanceMock.hasValidEmployees(crewMock)).thenReturn(true);
 
-        cruise.addHyperdriveMaintenance(ANY_HYPERDRIVE_MODULE_ID, hyperdriveMaintenanceMock);
+		cruise.addHyperdriveMaintenance(ANY_HYPERDRIVE_MODULE_ID, hyperdriveMaintenanceMock);
 
-        verify(hyperdriveInventoryMock).addMaintenance(ANY_HYPERDRIVE_MODULE_ID, hyperdriveMaintenanceMock);
-    }
+		verify(hyperdriveInventoryMock).addMaintenance(ANY_HYPERDRIVE_MODULE_ID, hyperdriveMaintenanceMock);
+	}
 
-    @Test
-    void givenCalculationDateTimeBeforeCruiseTime_whenCalculateRequiredOxygen_thenThrowOxygenCalculationDateOutsideCruiseException(){
-        Executable calculateRequiredOxygen = () -> cruise.calculateRequiredOxygen(ANY_DATE_TIME_BEFORE_DEPARTURE);
+	@Test
+	void givenCalculationDateTimeBeforeCruiseTime_whenCalculateRequiredOxygen_thenThrowOxygenCalculationDateOutsideCruiseException() {
+		Executable calculateRequiredOxygen = () -> cruise.calculateRequiredOxygen(ANY_DATE_TIME_BEFORE_DEPARTURE);
 
-        assertThrows(OxygenCalculationDateOutsideCruiseException.class, calculateRequiredOxygen);
-    }
+		assertThrows(OxygenCalculationDateOutsideCruiseException.class, calculateRequiredOxygen);
+	}
 
-    @Test
-    void givenCalculationDateTimeAfterCruiseTime_whenCalculateRequiredOxygen_thenThrowOxygenCalculationDateOutsideCruiseException(){
-        Executable calculateRequiredOxygen = () -> cruise.calculateRequiredOxygen(ANY_DATE_TIME_AFTER_END);
+	@Test
+	void givenCalculationDateTimeAfterCruiseTime_whenCalculateRequiredOxygen_thenThrowOxygenCalculationDateOutsideCruiseException() {
+		Executable calculateRequiredOxygen = () -> cruise.calculateRequiredOxygen(ANY_DATE_TIME_AFTER_END);
 
-        assertThrows(OxygenCalculationDateOutsideCruiseException.class, calculateRequiredOxygen);
-    }
+		assertThrows(OxygenCalculationDateOutsideCruiseException.class, calculateRequiredOxygen);
+	}
 
-    @Test
-    void givenCalculationDateTimeDuringCruiseTime_whenCalculateRequiredOxygen_thenReturnCalculatedRequiredOxygen(){
-        when(oxygenCalculatorFactoryMock.create(ANY_DATE_TIME_DURING_CRUISE, ANY_DEPARTURE_DATE_TIME, ANY_END_DATE_TIME)).thenReturn(oxygenCalculatorMock);
-        when(oxygenCalculatorMock.calculateRequiredOxygen(cruiseBookingsMock, crewMock)).thenReturn(ANY_OXYGEN);
+	@Test
+	void givenCalculationDateTimeDuringCruiseTime_whenCalculateRequiredOxygen_thenReturnCalculatedRequiredOxygen() {
+		when(oxygenCalculatorFactoryMock.create(ANY_DATE_TIME_DURING_CRUISE, ANY_DEPARTURE_DATE_TIME,
+				ANY_END_DATE_TIME)).thenReturn(oxygenCalculatorMock);
+		when(oxygenCalculatorMock.calculateRequiredOxygen(cruiseBookingsMock, crewMock)).thenReturn(ANY_OXYGEN);
 
-        Oxygen requiredOxygen = cruise.calculateRequiredOxygen(ANY_DATE_TIME_DURING_CRUISE);
+		Oxygen requiredOxygen = cruise.calculateRequiredOxygen(ANY_DATE_TIME_DURING_CRUISE);
 
-        assertEquals(ANY_OXYGEN, requiredOxygen);
-    }
+		assertEquals(ANY_OXYGEN, requiredOxygen);
+	}
 }

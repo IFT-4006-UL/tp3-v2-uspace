@@ -8,38 +8,38 @@ import uspace.domain.cruise.exceptions.NoTravelerToBookException;
 import java.util.List;
 
 public class NewBooking {
-    private List<NewBookingTraveler> travelers;
-    private CabinType cabinType;
-    private CruiseDateTime bookingDateTime;
-    public NewBooking(List<NewBookingTraveler> travelers, CabinType cabinType, CruiseDateTime bookingDateTime) {
-        this.travelers = travelers;
-        this.cabinType = cabinType;
-        this.bookingDateTime = bookingDateTime;
-    }
+	private List<NewBookingTraveler> travelers;
+	private CabinType cabinType;
+	private CruiseDateTime bookingDateTime;
+	public NewBooking(List<NewBookingTraveler> travelers, CabinType cabinType, CruiseDateTime bookingDateTime) {
+		this.travelers = travelers;
+		this.cabinType = cabinType;
+		this.bookingDateTime = bookingDateTime;
+	}
 
-    public List<NewBookingTraveler> getTravelers() {
-        return travelers;
-    }
+	public List<NewBookingTraveler> getTravelers() {
+		return travelers;
+	}
 
-    public CabinType getCabinType() {
-        return cabinType;
-    }
+	public CabinType getCabinType() {
+		return cabinType;
+	}
 
-    public CruiseDateTime getBookingDateTime() {
-        return bookingDateTime;
-    }
+	public CruiseDateTime getBookingDateTime() {
+		return bookingDateTime;
+	}
 
-    public void validate(CruiseDateTime cruiseDepartureDateTime) {
-        if (travelers.isEmpty()) {
-            throw new NoTravelerToBookException();
-        }
+	public void validate(CruiseDateTime cruiseDepartureDateTime) {
+		if (travelers.isEmpty()) {
+			throw new NoTravelerToBookException();
+		}
 
-        if (!bookingDateIsBeforeCruiseDeparture(cruiseDepartureDateTime)) {
-            throw new InvalidBookingDateException();
-        }
-    }
+		if (!bookingDateIsBeforeCruiseDeparture(cruiseDepartureDateTime)) {
+			throw new InvalidBookingDateException();
+		}
+	}
 
-    private boolean bookingDateIsBeforeCruiseDeparture(CruiseDateTime cruiseDepartureDateTime) {
-        return bookingDateTime.isBefore(cruiseDepartureDateTime);
-    }
+	private boolean bookingDateIsBeforeCruiseDeparture(CruiseDateTime cruiseDepartureDateTime) {
+		return bookingDateTime.isBefore(cruiseDepartureDateTime);
+	}
 }

@@ -15,74 +15,77 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CrewMemberCollectionTest {
 
-    private CrewMemberCollection crewMemberCollection;
-    private static final String ANY_EMPLOYEE_ID_STR = "ANY_EMPLOYEE_ID";
-    private static final EmployeeId ANY_EMPLOYEE_ID = new EmployeeId(ANY_EMPLOYEE_ID_STR);
-    private static final EmployeeId ANY_SAME_EMPLOYEE_ID = new EmployeeId(ANY_EMPLOYEE_ID_STR);
-    private static final EmployeeId ANY_OTHER_EMPLOYEE_ID = new EmployeeId("ANY_OTHER_EMPLOYEE_ID");
-    private static final CrewMemberName ANY_CREW_MEMBER_NAME = new CrewMemberName("ANY_CREW_MEMBER_NAME");
-    private static final Oxygen ANY_OXYGEN_CONSUMPTION_PER_MINUTE = new Oxygen(100);
-    private static final CrewMember ANY_CREW_MEMBER = new CrewMember(ANY_EMPLOYEE_ID, ANY_CREW_MEMBER_NAME, ANY_OXYGEN_CONSUMPTION_PER_MINUTE);
-    private static final CrewMember ANY_OTHER_CREW_MEMBER = new CrewMember(ANY_OTHER_EMPLOYEE_ID, ANY_CREW_MEMBER_NAME, ANY_OXYGEN_CONSUMPTION_PER_MINUTE);
+	private CrewMemberCollection crewMemberCollection;
+	private static final String ANY_EMPLOYEE_ID_STR = "ANY_EMPLOYEE_ID";
+	private static final EmployeeId ANY_EMPLOYEE_ID = new EmployeeId(ANY_EMPLOYEE_ID_STR);
+	private static final EmployeeId ANY_SAME_EMPLOYEE_ID = new EmployeeId(ANY_EMPLOYEE_ID_STR);
+	private static final EmployeeId ANY_OTHER_EMPLOYEE_ID = new EmployeeId("ANY_OTHER_EMPLOYEE_ID");
+	private static final CrewMemberName ANY_CREW_MEMBER_NAME = new CrewMemberName("ANY_CREW_MEMBER_NAME");
+	private static final Oxygen ANY_OXYGEN_CONSUMPTION_PER_MINUTE = new Oxygen(100);
+	private static final CrewMember ANY_CREW_MEMBER = new CrewMember(ANY_EMPLOYEE_ID, ANY_CREW_MEMBER_NAME,
+			ANY_OXYGEN_CONSUMPTION_PER_MINUTE);
+	private static final CrewMember ANY_OTHER_CREW_MEMBER = new CrewMember(ANY_OTHER_EMPLOYEE_ID, ANY_CREW_MEMBER_NAME,
+			ANY_OXYGEN_CONSUMPTION_PER_MINUTE);
 
-    @BeforeEach
-    void createCrewMemberCollection() {
-        crewMemberCollection = new CrewMemberCollection();
-    }
+	@BeforeEach
+	void createCrewMemberCollection() {
+		crewMemberCollection = new CrewMemberCollection();
+	}
 
-    @Test
-    void givenEmptyCollection_whenFindById_thenReturnNull() {
-        CrewMember foundCrewMember = crewMemberCollection.findByEmployeeId(ANY_EMPLOYEE_ID);
+	@Test
+	void givenEmptyCollection_whenFindById_thenReturnNull() {
+		CrewMember foundCrewMember = crewMemberCollection.findByEmployeeId(ANY_EMPLOYEE_ID);
 
-        assertNull(foundCrewMember);
-    }
+		assertNull(foundCrewMember);
+	}
 
-    @Test
-    void givenCrewMemberInCollection_whenFindById_thenReturnCrewMember() {
-        crewMemberCollection.add(ANY_CREW_MEMBER);
+	@Test
+	void givenCrewMemberInCollection_whenFindById_thenReturnCrewMember() {
+		crewMemberCollection.add(ANY_CREW_MEMBER);
 
-        CrewMember foundCrewMember = crewMemberCollection.findByEmployeeId(ANY_SAME_EMPLOYEE_ID);
+		CrewMember foundCrewMember = crewMemberCollection.findByEmployeeId(ANY_SAME_EMPLOYEE_ID);
 
-        assertEquals(ANY_CREW_MEMBER, foundCrewMember);
-    }
+		assertEquals(ANY_CREW_MEMBER, foundCrewMember);
+	}
 
-    @Test
-    void givenCrewMemberNotInCollection_whenFindById_thenReturnNull() {
-        crewMemberCollection.add(ANY_CREW_MEMBER);
+	@Test
+	void givenCrewMemberNotInCollection_whenFindById_thenReturnNull() {
+		crewMemberCollection.add(ANY_CREW_MEMBER);
 
-        CrewMember foundCrewMember = crewMemberCollection.findByEmployeeId(ANY_OTHER_EMPLOYEE_ID);
+		CrewMember foundCrewMember = crewMemberCollection.findByEmployeeId(ANY_OTHER_EMPLOYEE_ID);
 
-        assertNull(foundCrewMember);
-    }
+		assertNull(foundCrewMember);
+	}
 
-    @Test
-    void givenEmptyCollection_whenFindAll_thenReturnEmptyList() {
-        List<CrewMember> allCrewMembers = crewMemberCollection.findAll();
+	@Test
+	void givenEmptyCollection_whenFindAll_thenReturnEmptyList() {
+		List<CrewMember> allCrewMembers = crewMemberCollection.findAll();
 
-        assertTrue(allCrewMembers.isEmpty());
-    }
+		assertTrue(allCrewMembers.isEmpty());
+	}
 
-    @Test
-    void givenMultipleCrewMembersInCollection_whenFindAll_thenReturnAllCrewMembers() {
-        crewMemberCollection.add(ANY_CREW_MEMBER);
-        crewMemberCollection.add(ANY_OTHER_CREW_MEMBER);
-        int crewMembersNumber = 2;
+	@Test
+	void givenMultipleCrewMembersInCollection_whenFindAll_thenReturnAllCrewMembers() {
+		crewMemberCollection.add(ANY_CREW_MEMBER);
+		crewMemberCollection.add(ANY_OTHER_CREW_MEMBER);
+		int crewMembersNumber = 2;
 
-        List<CrewMember> allCrewMembers = crewMemberCollection.findAll();
+		List<CrewMember> allCrewMembers = crewMemberCollection.findAll();
 
-        assertEquals(crewMembersNumber, allCrewMembers.size());
-        assertTrue(allCrewMembers.contains(ANY_CREW_MEMBER));
-        assertTrue(allCrewMembers.contains(ANY_OTHER_CREW_MEMBER));
-    }
+		assertEquals(crewMembersNumber, allCrewMembers.size());
+		assertTrue(allCrewMembers.contains(ANY_CREW_MEMBER));
+		assertTrue(allCrewMembers.contains(ANY_OTHER_CREW_MEMBER));
+	}
 
-    @Test
-    void givenCrewMemberInCollection_whenAddCrewMemberWithSameEmployeeId_thenThrowCrewMemberAlreadyInCruiseException() {
-        CrewMember anyCrewMemberWithSameEmployeeId = new CrewMember(ANY_SAME_EMPLOYEE_ID, ANY_CREW_MEMBER_NAME, ANY_OXYGEN_CONSUMPTION_PER_MINUTE);
-        crewMemberCollection.add(ANY_CREW_MEMBER);
+	@Test
+	void givenCrewMemberInCollection_whenAddCrewMemberWithSameEmployeeId_thenThrowCrewMemberAlreadyInCruiseException() {
+		CrewMember anyCrewMemberWithSameEmployeeId = new CrewMember(ANY_SAME_EMPLOYEE_ID, ANY_CREW_MEMBER_NAME,
+				ANY_OXYGEN_CONSUMPTION_PER_MINUTE);
+		crewMemberCollection.add(ANY_CREW_MEMBER);
 
-        Executable addCrewMember = () -> crewMemberCollection.add(anyCrewMemberWithSameEmployeeId);
+		Executable addCrewMember = () -> crewMemberCollection.add(anyCrewMemberWithSameEmployeeId);
 
-        assertThrows(CrewMemberAlreadyInCruiseException.class, addCrewMember);
-    }
+		assertThrows(CrewMemberAlreadyInCruiseException.class, addCrewMember);
+	}
 
 }

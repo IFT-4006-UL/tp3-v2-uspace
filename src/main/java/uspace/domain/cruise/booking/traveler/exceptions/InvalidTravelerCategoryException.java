@@ -4,7 +4,7 @@ import uspace.domain.exceptions.InvalidParameterException;
 
 public class InvalidTravelerCategoryException extends InvalidParameterException {
 
-    public InvalidTravelerCategoryException() {
-        super("Invalid traveler category.");
-    }
+	public InvalidTravelerCategoryException() {
+		super("Invalid traveler category.");
+	}
 }

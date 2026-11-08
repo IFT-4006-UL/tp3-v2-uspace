@@ -9,9 +9,9 @@ import uspace.domain.cruise.zeroGravityExperience.exceptions.ZeroGravityExperien
 @Provider
 public class ZeroGravityExperienceFullExceptionMapper implements ExceptionMapper<ZeroGravityExperienceFullException> {
 
-    @Override
-    public Response toResponse(ZeroGravityExperienceFullException exception) {
-        ErrorResponse error = new ErrorResponse("ZERO_GRAVITY_EXPERIENCE_FULL", exception.getMessage());
-        return Response.status(400).entity(error).build();
-    }
+	@Override
+	public Response toResponse(ZeroGravityExperienceFullException exception) {
+		ErrorResponse error = new ErrorResponse("ZERO_GRAVITY_EXPERIENCE_FULL", exception.getMessage());
+		return Response.status(400).entity(error).build();
+	}
 }

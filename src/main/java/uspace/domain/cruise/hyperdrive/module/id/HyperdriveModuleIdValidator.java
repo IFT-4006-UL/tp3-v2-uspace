@@ -7,12 +7,12 @@ import jakarta.persistence.*;
 @DiscriminatorColumn(name = "hypermodul_id_validator_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class HyperdriveModuleIdValidator {
 
-    @Id
-    protected HyperdriveModuleIdValidatorId id;
+	@Id
+	protected HyperdriveModuleIdValidatorId id;
 
-    protected HyperdriveModuleIdValidator() {
-        id = new HyperdriveModuleIdValidatorId();
-    }
+	protected HyperdriveModuleIdValidator() {
+		id = new HyperdriveModuleIdValidatorId();
+	}
 
-    public abstract boolean isValid(HyperdriveModuleId id);
+	public abstract boolean isValid(HyperdriveModuleId id);
 }

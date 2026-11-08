@@ -9,9 +9,9 @@ import uspace.domain.cruise.booking.exceptions.BookingNotFoundException;
 @Provider
 public class BookingNotFoundExceptionMapper implements ExceptionMapper<BookingNotFoundException> {
 
-    @Override
-    public Response toResponse(BookingNotFoundException exception) {
-        ErrorResponse error = new ErrorResponse("BOOKING_NOT_FOUND", exception.getMessage());
-        return Response.status(404).entity(error).build();
-    }
+	@Override
+	public Response toResponse(BookingNotFoundException exception) {
+		ErrorResponse error = new ErrorResponse("BOOKING_NOT_FOUND", exception.getMessage());
+		return Response.status(404).entity(error).build();
+	}
 }

@@ -20,52 +20,52 @@ import java.util.List;
 @Entity
 public class Crew {
 
-    @Id
-    private CrewId id;
+	@Id
+	private CrewId id;
 
-    private CrewMemberCollection crewMemberCollection;
+	private CrewMemberCollection crewMemberCollection;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @Cascade(CascadeType.SAVE_UPDATE)
-    private EmployeeIdValidator employeeIdValidator;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@Cascade(CascadeType.SAVE_UPDATE)
+	private EmployeeIdValidator employeeIdValidator;
 
-    public Crew() {
-    }
+	public Crew() {
+	}
 
-    public Crew(CrewId id, CrewMemberCollection crewMemberCollection, EmployeeIdValidator employeeIdValidator) {
-        this.id = id;
-        this.crewMemberCollection = crewMemberCollection;
-        this.employeeIdValidator = employeeIdValidator;
-    }
+	public Crew(CrewId id, CrewMemberCollection crewMemberCollection, EmployeeIdValidator employeeIdValidator) {
+		this.id = id;
+		this.crewMemberCollection = crewMemberCollection;
+		this.employeeIdValidator = employeeIdValidator;
+	}
 
-    public void addCrewMember(CrewMember crewMember, CabinAvailabilities cabinAvailabilities) {
-        if (!employeeIdValidator.isValid(crewMember.getEmployeeId())) {
-            throw new InvalidEmployeeIdFormatException();
-        }
+	public void addCrewMember(CrewMember crewMember, CabinAvailabilities cabinAvailabilities) {
+		if (!employeeIdValidator.isValid(crewMember.getEmployeeId())) {
+			throw new InvalidEmployeeIdFormatException();
+		}
 
-        if (crewMemberCollection.findByEmployeeId(crewMember.getEmployeeId()) != null) {
-            throw new CrewMemberAlreadyInCruiseException();
-        }
+		if (crewMemberCollection.findByEmployeeId(crewMember.getEmployeeId()) != null) {
+			throw new CrewMemberAlreadyInCruiseException();
+		}
 
-        cabinAvailabilities.bookCabin(CabinType.STANDARD);
+		cabinAvailabilities.bookCabin(CabinType.STANDARD);
 
-        crewMemberCollection.add(crewMember);
-    }
+		crewMemberCollection.add(crewMember);
+	}
 
-    public List<CrewMember> getAllCrewMembers() {
-        return List.copyOf(crewMemberCollection.findAll());
-    }
+	public List<CrewMember> getAllCrewMembers() {
+		return List.copyOf(crewMemberCollection.findAll());
+	}
 
-    public CrewMember findCrewMemberById(EmployeeId employeeId) {
-        return crewMemberCollection.findByEmployeeId(employeeId);
-    }
+	public CrewMember findCrewMemberById(EmployeeId employeeId) {
+		return crewMemberCollection.findByEmployeeId(employeeId);
+	}
 
-    public Oxygen getTotalOxygenConsumptionPerMinutes() {
-        Oxygen totalOxygenConsumption = new Oxygen(0);
-        for (CrewMember crewMember : crewMemberCollection.findAll()) {
-            totalOxygenConsumption = totalOxygenConsumption.add(crewMember.getOxygenConsumptionPerMinute());
-        }
+	public Oxygen getTotalOxygenConsumptionPerMinutes() {
+		Oxygen totalOxygenConsumption = new Oxygen(0);
+		for (CrewMember crewMember : crewMemberCollection.findAll()) {
+			totalOxygenConsumption = totalOxygenConsumption.add(crewMember.getOxygenConsumptionPerMinute());
+		}
 
-        return totalOxygenConsumption;
-    }
+		return totalOxygenConsumption;
+	}
 }

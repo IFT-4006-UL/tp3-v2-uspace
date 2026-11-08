@@ -9,9 +9,9 @@ import uspace.domain.cruise.booking.traveler.exceptions.TravelerNotFoundExceptio
 @Provider
 public class TravelerNotFoundExceptionMapper implements ExceptionMapper<TravelerNotFoundException> {
 
-    @Override
-    public Response toResponse(TravelerNotFoundException exception) {
-        ErrorResponse error = new ErrorResponse("TRAVELER_NOT_FOUND", exception.getMessage());
-        return Response.status(404).entity(error).build();
-    }
+	@Override
+	public Response toResponse(TravelerNotFoundException exception) {
+		ErrorResponse error = new ErrorResponse("TRAVELER_NOT_FOUND", exception.getMessage());
+		return Response.status(404).entity(error).build();
+	}
 }

@@ -7,11 +7,13 @@ import uspace.api.exceptions.ErrorResponse;
 import uspace.domain.cruise.hyperdrive.module.maintenance.exceptions.InvalidHyperdriveMaintenanceDurationException;
 
 @Provider
-public class InvalidHyperdriveMaintenanceDurationExceptionMapper implements ExceptionMapper<InvalidHyperdriveMaintenanceDurationException> {
+public class InvalidHyperdriveMaintenanceDurationExceptionMapper
+		implements
+			ExceptionMapper<InvalidHyperdriveMaintenanceDurationException> {
 
-    @Override
-    public Response toResponse(InvalidHyperdriveMaintenanceDurationException exception) {
-        ErrorResponse error = new ErrorResponse("INVALID_MAINTENANCE_DURATION", exception.getMessage());
-        return Response.status(400).entity(error).build();
-    }
+	@Override
+	public Response toResponse(InvalidHyperdriveMaintenanceDurationException exception) {
+		ErrorResponse error = new ErrorResponse("INVALID_MAINTENANCE_DURATION", exception.getMessage());
+		return Response.status(400).entity(error).build();
+	}
 }

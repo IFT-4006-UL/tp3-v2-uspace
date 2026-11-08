@@ -7,25 +7,25 @@ import uspace.domain.cruise.zeroGravityExperience.ZeroGravityExperience;
 
 import java.util.List;
 
-
 @Entity
-public class AdultTraveler extends Traveler{
+public class AdultTraveler extends Traveler {
 
-    public AdultTraveler() {
-    }
+	public AdultTraveler() {
+	}
 
-    public AdultTraveler(TravelerId id, TravelerName name, List<Badge> badges, Oxygen oxygenConsumptionPerMinute) {
-        super(id, name, TravelerCategory.ADULT, badges, oxygenConsumptionPerMinute);
-    }
+	public AdultTraveler(TravelerId id, TravelerName name, List<Badge> badges, Oxygen oxygenConsumptionPerMinute) {
+		super(id, name, TravelerCategory.ADULT, badges, oxygenConsumptionPerMinute);
+	}
 
-    @Override
-    public void bookZeroGravityExperience(ZeroGravityExperience zeroGravityExperience, List<Traveler> travelersInBooking) {
-        zeroGravityExperience.book(id);
-        earnOneTimeBadge(Badge.ZERO_G);
-    }
+	@Override
+	public void bookZeroGravityExperience(ZeroGravityExperience zeroGravityExperience,
+			List<Traveler> travelersInBooking) {
+		zeroGravityExperience.book(id);
+		earnOneTimeBadge(Badge.ZERO_G);
+	}
 
-    @Override
-    public boolean canAccompagnyChildForZeroGravityExperience(ZeroGravityExperience zeroGravityExperience) {
-        return zeroGravityExperience.hasTravelerBooked(id);
-    }
+	@Override
+	public boolean canAccompagnyChildForZeroGravityExperience(ZeroGravityExperience zeroGravityExperience) {
+		return zeroGravityExperience.hasTravelerBooked(id);
+	}
 }

@@ -8,21 +8,21 @@ import java.time.format.DateTimeFormatter;
 
 public class LocalDateParser {
 
-    private final DateTimeFormatter dateTimeFormatter;
+	private final DateTimeFormatter dateTimeFormatter;
 
-    @Inject
-    public LocalDateParser(DateTimeFormatter dateTimeFormatter) {
-        this.dateTimeFormatter = dateTimeFormatter;
-    }
+	@Inject
+	public LocalDateParser(DateTimeFormatter dateTimeFormatter) {
+		this.dateTimeFormatter = dateTimeFormatter;
+	}
 
-    public LocalDate parse(String dateTimeStr) {
-        LocalDate dateTime;
-        try {
-            dateTime = LocalDate.parse(dateTimeStr, dateTimeFormatter);
-        } catch (Exception e) {
-            throw new InvalidDateFormatException();
-        }
+	public LocalDate parse(String dateTimeStr) {
+		LocalDate dateTime;
+		try {
+			dateTime = LocalDate.parse(dateTimeStr, dateTimeFormatter);
+		} catch (Exception e) {
+			throw new InvalidDateFormatException();
+		}
 
-        return dateTime;
-    }
+		return dateTime;
+	}
 }

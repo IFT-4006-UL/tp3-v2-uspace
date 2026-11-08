@@ -43,54 +43,56 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class ConfigurationServerRest extends AbstractBinder {
-    private final static String LOCAL_DATE_FORMAT = "yyyy-MM-dd";
-    private final static LocalTime HYPERDRIVE_ACTIVATION_TIME = LocalTime.of(1,0,0);
-    private static CruiseRepository CruiseRepositoryInstance = new HibernateCruiseRepository();
-    private static AccountRepository AccountRepositoryInstance = new HibernateAccountRepository();
+	private final static String LOCAL_DATE_FORMAT = "yyyy-MM-dd";
+	private final static LocalTime HYPERDRIVE_ACTIVATION_TIME = LocalTime.of(1, 0, 0);
+	private static CruiseRepository CruiseRepositoryInstance = new HibernateCruiseRepository();
+	private static AccountRepository AccountRepositoryInstance = new HibernateAccountRepository();
 
-    public static void useInMemoryRepositories() {
-        CruiseRepositoryInstance = new InMemoryCruiseRepository();
-        AccountRepositoryInstance = new InMemoryAccountRepository();
-    }
+	public static void useInMemoryRepositories() {
+		CruiseRepositoryInstance = new InMemoryCruiseRepository();
+		AccountRepositoryInstance = new InMemoryAccountRepository();
+	}
 
-    @Override
-    protected void configure() {
-        bind(new StandardHyperdriveStabilityValidator(new StandardHyperdriveStabilitySystem())).to(HyperdriveStabilityValidator.class);
+	@Override
+	protected void configure() {
+		bind(new StandardHyperdriveStabilityValidator(new StandardHyperdriveStabilitySystem()))
+				.to(HyperdriveStabilityValidator.class);
 
-        bind(new TravelerFactory(ConfigurationsAllCruises.TRAVELERS_OXYGEN_CONSUMPTION_PER_MINUTE)).to(TravelerFactory.class);
-        bindAsContract(BookingFactory.class);
-        bind(new HyperdriveModuleFactory(HYPERDRIVE_ACTIVATION_TIME)).to(HyperdriveModuleFactory.class);
+		bind(new TravelerFactory(ConfigurationsAllCruises.TRAVELERS_OXYGEN_CONSUMPTION_PER_MINUTE))
+				.to(TravelerFactory.class);
+		bindAsContract(BookingFactory.class);
+		bind(new HyperdriveModuleFactory(HYPERDRIVE_ACTIVATION_TIME)).to(HyperdriveModuleFactory.class);
 
-        bindAsContract(RequiredOxygenAssembler.class);
-        bindAsContract(CrewMemberAssembler.class);
-        bindAsContract(BookingTravelerAssembler.class);
-        bindAsContract(BookingAssembler.class);
-        bindAsContract(HyperdriveMaintenanceAssembler.class);
-        bindAsContract(HyperdriveModuleAssembler.class);
-        bindAsContract(CruiseAssembler.class);
-        bindAsContract(AccountAssembler.class);
+		bindAsContract(RequiredOxygenAssembler.class);
+		bindAsContract(CrewMemberAssembler.class);
+		bindAsContract(BookingTravelerAssembler.class);
+		bindAsContract(BookingAssembler.class);
+		bindAsContract(HyperdriveMaintenanceAssembler.class);
+		bindAsContract(HyperdriveModuleAssembler.class);
+		bindAsContract(CruiseAssembler.class);
+		bindAsContract(AccountAssembler.class);
 
-        bind(DateTimeFormatter.ISO_LOCAL_DATE_TIME).to(DateTimeFormatter.class);
-        bindAsContract(LocalDateTimeParser.class);
-        bind(new LocalDateParser(DateTimeFormatter.ofPattern(LOCAL_DATE_FORMAT))).to(LocalDateParser.class);
+		bind(DateTimeFormatter.ISO_LOCAL_DATE_TIME).to(DateTimeFormatter.class);
+		bindAsContract(LocalDateTimeParser.class);
+		bind(new LocalDateParser(DateTimeFormatter.ofPattern(LOCAL_DATE_FORMAT))).to(LocalDateParser.class);
 
-        bind(CruiseRepositoryInstance).to(CruiseRepository.class);
-        bind(AccountRepositoryInstance).to(AccountRepository.class);
+		bind(CruiseRepositoryInstance).to(CruiseRepository.class);
+		bind(AccountRepositoryInstance).to(AccountRepository.class);
 
-        bindAsContract(OxygenCalculationValidator.class);
-        bindAsContract(CrewMemberDtoValidator.class);
-        bindAsContract(ZeroGravityExperienceRequestValidator.class);
-        bindAsContract(NewBookingDtoValidator.class);
-        bindAsContract(HyperdriveMaintenanceValidator.class);
-        bindAsContract(NewHyperdriveModuleValidator.class);
-        bindAsContract(AccountDtoValidator.class);
+		bindAsContract(OxygenCalculationValidator.class);
+		bindAsContract(CrewMemberDtoValidator.class);
+		bindAsContract(ZeroGravityExperienceRequestValidator.class);
+		bindAsContract(NewBookingDtoValidator.class);
+		bindAsContract(HyperdriveMaintenanceValidator.class);
+		bindAsContract(NewHyperdriveModuleValidator.class);
+		bindAsContract(AccountDtoValidator.class);
 
-        bind(ConfigurationsAllCruises.CREW_MEMBER_OXYGEN_CONSUMPTION_PER_MINUTE).to(Oxygen.class).named("crew");
-        bindAsContract(CrewMemberService.class);
-        bindAsContract(TravelerService.class);
-        bindAsContract(HyperdriveModuleService.class);
-        bindAsContract(BookingService.class);
-        bindAsContract(CruiseService.class);
-        bindAsContract(AccountService.class);
-    }
+		bind(ConfigurationsAllCruises.CREW_MEMBER_OXYGEN_CONSUMPTION_PER_MINUTE).to(Oxygen.class).named("crew");
+		bindAsContract(CrewMemberService.class);
+		bindAsContract(TravelerService.class);
+		bindAsContract(HyperdriveModuleService.class);
+		bindAsContract(BookingService.class);
+		bindAsContract(CruiseService.class);
+		bindAsContract(AccountService.class);
+	}
 }

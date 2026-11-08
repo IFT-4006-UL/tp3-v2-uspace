@@ -17,36 +17,32 @@ import java.util.List;
 
 public class BookingAssembler {
 
-    private final BookingTravelerAssembler bookingTravelerAssembler;
+	private final BookingTravelerAssembler bookingTravelerAssembler;
 
-    @Inject
-    public BookingAssembler(BookingTravelerAssembler bookingTravelerAssembler) {
-        this.bookingTravelerAssembler = bookingTravelerAssembler;
-    }
+	@Inject
+	public BookingAssembler(BookingTravelerAssembler bookingTravelerAssembler) {
+		this.bookingTravelerAssembler = bookingTravelerAssembler;
+	}
 
-    public BookingDto toDto(String cruiseId, Booking booking) {
-        List<BookingTravelerDto> travelerDtos = createBookingTravelerDtos(booking.getTravelers());
+	public BookingDto toDto(String cruiseId, Booking booking) {
+		List<BookingTravelerDto> travelerDtos = createBookingTravelerDtos(booking.getTravelers());
 
-        return new BookingDto(
-                    cruiseId,
-                    booking.getId().toString(),
-                    travelerDtos,
-                    booking.getCabinType().toString(),
-                    booking.getBookingDateTime().toString());
-    }
+		return new BookingDto(cruiseId, booking.getId().toString(), travelerDtos, booking.getCabinType().toString(),
+				booking.getBookingDateTime().toString());
+	}
 
-    public NewBooking toNewBooking(NewBookingDto newBookingDto, LocalDateTime bookingDateTime) {
-        List<NewBookingTraveler> newBookingTravelers = createNewBookingTravelers(newBookingDto.travelers);
-        CabinType cabinType = CabinType.fromString(newBookingDto.cabinType);
-        CruiseDateTime bookingCruiseDateTime = new CruiseDateTime(bookingDateTime);
-        return new NewBooking(newBookingTravelers, cabinType, bookingCruiseDateTime);
-    }
+	public NewBooking toNewBooking(NewBookingDto newBookingDto, LocalDateTime bookingDateTime) {
+		List<NewBookingTraveler> newBookingTravelers = createNewBookingTravelers(newBookingDto.travelers);
+		CabinType cabinType = CabinType.fromString(newBookingDto.cabinType);
+		CruiseDateTime bookingCruiseDateTime = new CruiseDateTime(bookingDateTime);
+		return new NewBooking(newBookingTravelers, cabinType, bookingCruiseDateTime);
+	}
 
-    private List<BookingTravelerDto> createBookingTravelerDtos(List<Traveler> travelers) {
-        return travelers.stream().map(bookingTravelerAssembler::toDto).toList();
-    }
+	private List<BookingTravelerDto> createBookingTravelerDtos(List<Traveler> travelers) {
+		return travelers.stream().map(bookingTravelerAssembler::toDto).toList();
+	}
 
-    private List<NewBookingTraveler> createNewBookingTravelers(List<NewBookingTravelerDto> travelers) {
-        return travelers.stream().map(bookingTravelerAssembler::toNewBookingTraveler).toList();
-    }
+	private List<NewBookingTraveler> createNewBookingTravelers(List<NewBookingTravelerDto> travelers) {
+		return travelers.stream().map(bookingTravelerAssembler::toNewBookingTraveler).toList();
+	}
 }

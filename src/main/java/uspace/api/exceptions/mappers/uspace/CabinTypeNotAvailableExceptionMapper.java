@@ -9,9 +9,9 @@ import uspace.domain.cruise.cabin.exceptions.CabinTypeNotAvailableException;
 @Provider
 public class CabinTypeNotAvailableExceptionMapper implements ExceptionMapper<CabinTypeNotAvailableException> {
 
-    @Override
-    public Response toResponse(CabinTypeNotAvailableException exception) {
-        ErrorResponse error = new ErrorResponse("CABIN_TYPE_NOT_AVAILABLE", exception.getMessage());
-        return Response.status(400).entity(error).build();
-    }
+	@Override
+	public Response toResponse(CabinTypeNotAvailableException exception) {
+		ErrorResponse error = new ErrorResponse("CABIN_TYPE_NOT_AVAILABLE", exception.getMessage());
+		return Response.status(400).entity(error).build();
+	}
 }
