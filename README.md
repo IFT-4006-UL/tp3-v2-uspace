@@ -20,6 +20,21 @@ mvn clean install
 mvn exec:java
 ```
 
+### Utiliser le plugin spotless
+
+Spotless est l'équivalent d'un prettier en javascript. Vous pouvez vous en servir afin de formatter votre code.
+
+Pour voir les changements a appliquer:
+```bash
+mvn spotless:check
+```
+
+Pour appliquer les changements:
+```bash
+mvn spotless:apply
+```
+
+
 ## Fonctionnalités
 
 Certaines fonctionnalités sont déjà implémentées dans le projet.
